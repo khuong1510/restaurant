@@ -55,10 +55,29 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function list() {
-        $users = User::paginate(4);
+        $users = User::where('active',1);
 
         return view('admin.subpage.user.list', [
-            'users' => $users
+            'users' => $users->paginate(8)
+        ]);
+    }
+
+    /**
+     * Sort filter list users
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function filter(Request $request) {
+        $users = new User;
+
+        $old = $request->all();
+        $users = $users->filterUser($request->all());
+
+        //dd($users);
+
+        return view('admin.subpage.user.list', [
+            'users' => $users->paginate(8),
+            'old'   => $old
         ]);
     }
 

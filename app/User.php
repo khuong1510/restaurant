@@ -67,19 +67,22 @@ class User extends Authenticatable
     }
 
     public function filterUser($array) {
-        if($array['name']) {
-            $this->where('name', 'like', '%'.$array['name'].'%')->get();
+        $users = $this->query();
+
+        if($array['name'] != '') {
+            $users->where('name', 'like', '%'.$array['name'].'%')->get();
         }
-        if($array['username']) {
-            $this->where('username', 'like', '%'.$array['username'].'%')->get();
+        if($array['username'] != '') {
+            $users->where('username', 'like', '%'.$array['username'].'%')->get();
         }
-        if($array['email']) {
-            $this->where('email', 'like', '%'.$array['email'].'%')->get();
+        if($array['email'] != '') {
+            $users->where('email', 'like', '%'.$array['email'].'%')->get();
         }
-        if($array['phone']) {
-            $this->where('phone', 'like', '%'.$array['phone'].'%')->get();
+        if($array['phone'] != '') {
+            $users->where('phone', 'like', '%'.$array['phone'].'%')->get();
         }
-        return $this;
+        $users->where('active', $array['active'])->get();
+        return $users;
     }
 
 }

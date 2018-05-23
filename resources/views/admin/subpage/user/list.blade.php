@@ -8,15 +8,17 @@
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet light ">
-                <form action="{{ URL::action('AdminController\UserController@filter') }}" method="POST">
+                <form action="{{ asset('/admin/user') }}" method="POST" id="filterForm" autocomplete="off">
                     {{ csrf_field() }}
                     <div class="portlet-title">
-                        <div class="caption font-dark">
-                            <i class="icon-settings font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">List Users</span>
+                        <div class="caption font-red-sunglo">
+                            <h4 class="caption-subject bold uppercase"><i class="icon-settings font-red-sunglo"></i> List Users</h4>
                         </div>
 
                         <div class="text-right">
+                            <button class="dt-button buttons-html5 btn" type="button" id="refreshBtn">
+                                <i class="fa fa-refresh"></i> Refresh
+                            </button>
                             <button class="dt-button buttons-html5 btn yellow-gold" type="submit">
                                 <i class="fa fa-search"></i> Filter
                             </button>
@@ -41,21 +43,21 @@
                                 <tr>
                                     <th></th>
                                     <th>
-                                        <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                        <input type="text" class="form-control" name="name" value="{{ isset($old['name']) ? $old['name'] : '' }}">
                                     </th>
                                     <th>
-                                        <input type="text" class="form-control" name="username" value="{{ old('username') }}">
+                                        <input type="text" class="form-control" name="username" value="{{ isset($old['username']) ? $old['username'] : '' }}">
                                     </th>
                                     <th>
-                                        <input type="text" class="form-control" name="email" value="{{ old('email') }}">
+                                        <input type="text" class="form-control" name="email" value="{{ isset($old['email']) ? $old['email'] : '' }}">
                                     </th>
                                     <th>
-                                        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+                                        <input type="text" class="form-control" name="phone" value="{{ isset($old['phone']) ? $old['phone'] : '' }}">
                                     </th>
                                     <th>
                                         <select name="active" id="" class="form-control">
-                                            <option value="1" @if(old('active') == 1) selected @endif>Active</option>
-                                            <option value="0" @if(old('active') == 0) selected @endif>Disable</option>
+                                            <option value="1" {{ (isset($old['active']) && $old['active'] == 1) ? 'selected' : '' }}>Active</option>
+                                            <option value="0" {{ (isset($old['active']) && $old['active'] == 0) ? 'selected' : '' }}>Disable</option>
                                         </select>
                                     </th>
                                     <th></th>
@@ -100,4 +102,16 @@
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
     </div>
+@endsection
+
+@section('addition-script')
+    <script>
+        $(document).ready(function() {
+
+            $('#refreshBtn').on('click', function() {
+                $('#filterForm input').not('input[name="_token"]').val('');
+            });
+
+        });
+    </script>
 @endsection
