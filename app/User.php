@@ -66,23 +66,109 @@ class User extends Authenticatable
         $this->save();
     }
 
-    public function filterUser($array) {
+    public function updateUser($array, $userId) {
+        $message = [];
+
+        $this->find($userId);
+
+        if($array['formId'] == "updateForm") {
+            $rules = [
+                'email' => ['required',Rule::unique('users')->ignore($userId, 'id'),'email'],
+                'dob'   => 'required',
+                'phone' => ['digits_between: 10,11',Rule::unique('users')->ignore($userId, 'id')],
+            ];
+
+            $validate = Validator::make($array, $rules);
+            if($validate->fails()) {
+                $message = [
+                    'errors'   => $validate->errors()->messages(),
+                ];
+            }
+            else {
+                $this->email    = $array['email'];
+                $this->phone    = $array['phone'];
+                $this->dob      = $array['dob'];
+
+                $message = [
+                    'message'   => "Update user personal information successed.",
+                ];
+            }
+
+        }
+        elseif ($array['formId'] == "updateAvatarForm") {
+            $message = [
+                'message'   => "Update user avatar successed.",
+            ];
+        }
+
+        //$this->password = bcrypt($array['password']);
+        //$this->role     = $array['role'];
+        //$this->active   = $array['active'];
+//        if(!empty($array['avatar'])) {
+//            $this->avatar = 'default-user.png';
+//        }
+//        else
+//        {
+//            $destinationPath = 'images/users/';
+//            $file = $array['avatar'];
+//            $file_extension = $file->getClientOriginalExtension(); //Get file original name
+//            $file_name =  "user_".str_random(4). "." . $file_extension;
+//            $file->move($destinationPath , $file_name);
+//            $this->avatar = $file_name;
+//        }
+        $this->updated_at = Carbon::now();
+
+        $this->save();
+
+
+
+        return $message;
+    }
+
+    /**
+     * Filter user
+     * @param $array
+     * @param $pageSize
+     * @param $currentPage
+     * @return array
+     */
+    public function filterUser($array, $pageSize, $currentPage) {
+        $arrUsers = array();
+        $data = array();
+
         $users = $this->query();
 
-        if($array['name'] != '') {
-            $users->where('name', 'like', '%'.$array['name'].'%')->get();
-        }
-        if($array['username'] != '') {
-            $users->where('username', 'like', '%'.$array['username'].'%')->get();
-        }
-        if($array['email'] != '') {
-            $users->where('email', 'like', '%'.$array['email'].'%')->get();
-        }
-        if($array['phone'] != '') {
-            $users->where('phone', 'like', '%'.$array['phone'].'%')->get();
-        }
+        $users->where('name', 'like', '%'.$array['name'].'%')->get();
+        $users->where('username', 'like', '%'.$array['username'].'%')->get();
+        $users->where('email', 'like', '%'.$array['email'].'%')->get();
+        $users->where('phone', 'like', '%'.$array['phone'].'%')->get();
         $users->where('active', $array['active'])->get();
-        return $users;
+        $users->orderBy('name', $array['name-sort'])->get();
+        $users->orderBy('username', $array['username-sort'])->get();
+        $users->orderBy('email', $array['email-sort'])->get();
+
+        $users = $users->paginate($pageSize, null, null, $currentPage);
+
+        // Calculate page number to paginate
+        $numberPage = ceil($users->total()/$pageSize);
+
+        foreach($users as $user) {
+            $arrUsers[] = array(
+                'id'                => $user->id,
+                'name'              => $user->name,
+                'username'          => $user->username,
+                'phone'             => $user->phone,
+                'email'             => $user->email,
+                'active'            => $user->active
+            );
+        }
+
+        $data['users'] = $arrUsers;
+        $data['numberPage'] = $numberPage;
+        $data['currentPage'] = $currentPage;
+        $data['pageSize'] = $pageSize;
+
+        return $data;
     }
 
 }

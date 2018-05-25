@@ -108,6 +108,13 @@
                                             </span>
                                             <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                         </div>
+
+                                        <div class="clearfix margin-top-10">
+                                            <span class="label label-danger">NOTE!</span>
+                                            <span> Attached image is required lower than 6 Mb <br>
+                                                    And image dimensions is greater than 100x100.
+                                            </span>
+                                        </div>
                                     </div>
 
                                 </div>

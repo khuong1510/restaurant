@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\User;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -55,10 +56,11 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function list() {
-        $users = User::where('active',1);
+        $pageSize = 10;
+        $users = User::where('active',1)->orderBy('name', 'asc');
 
         return view('admin.subpage.user.list', [
-            'users' => $users->paginate(8)
+            'users' => $users->paginate($pageSize)
         ]);
     }
 
@@ -68,17 +70,13 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function filter(Request $request) {
+        $pageSize = 10;
+        $currentPage = $request['current-page'];
+
         $users = new User;
+        $data = $users->filterUser($request->all(), $pageSize, $currentPage);
 
-        $old = $request->all();
-        $users = $users->filterUser($request->all());
-
-        //dd($users);
-
-        return view('admin.subpage.user.list', [
-            'users' => $users->paginate(8),
-            'old'   => $old
-        ]);
+        return json_encode($data);
     }
 
     /**
@@ -94,7 +92,7 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(UserRequest $request) {
+    public function create(StoreUserRequest $request) {
         $user = new User;
         $user->insertUser($request->all());
         return redirect()->back()->with('message', 'New user have been added');
@@ -102,9 +100,20 @@ class UserController extends Controller
 
     /**
      * Get edit page
+     * @param $userId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit() {
-        return view('admin.subpage.user.edit');
+    public function edit($userId) {
+        $user = User::find($userId);
+        return view('admin.subpage.user.edit', [ 'user' => $user ]);
+    }
+
+    public function update(Request $request) {
+        //dd($errors->all());
+        $userId = $request->userId;
+        $user = User::find($userId);
+        $message = $user->updateUser($request->all(), $userId);
+
+        return json_encode($message);
     }
 }

@@ -48,7 +48,7 @@ Route::group([  'prefix' => '/admin',
         Route::post('/create', 'UserController@create');
 
         // Get edit page and execute
-        Route::get('/edit', 'UserController@edit');
+        Route::get('/edit/{id}', 'UserController@edit');
         Route::post('/update', 'UserController@update');
 
     });

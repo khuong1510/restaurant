@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet light ">
-                <form action="{{ asset('/admin/user') }}" method="POST" id="filterForm" autocomplete="off">
+                <form method="POST" id="filterForm" autocomplete="off">
                     {{ csrf_field() }}
                     <div class="portlet-title">
                         <div class="caption font-red-sunglo">
@@ -19,9 +19,6 @@
                             <button class="dt-button buttons-html5 btn" type="button" id="refreshBtn">
                                 <i class="fa fa-refresh"></i> Refresh
                             </button>
-                            <button class="dt-button buttons-html5 btn yellow-gold" type="submit">
-                                <i class="fa fa-search"></i> Filter
-                            </button>
                             <a href="{{ asset('/admin/user/add') }}"
                                class="dt-button buttons-html5 btn green">
                                 <i class="fa fa-plus"></i> Add
@@ -29,33 +26,45 @@
                         </div>
                     </div>
                     <div class="portlet-body">
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-bordered table-hover" id="user-table">
                             <thead>
                                 <tr class="success">
                                     <th style="width: 5%" class="text-center"> No. </th>
-                                    <th style="width: 26%" class="text-center"> Full Name </th>
-                                    <th style="width: 16%" class="text-center"> Username </th>
-                                    <th style="width: 20%" class="text-center"> Email </th>
-                                    <th style="width: 12%" class="text-center"> Phone </th>
+                                    <th style="width: 26%" class="text-center"> Full Name
+                                        <i class="glyphicon glyphicon-sort-by-attributes eav-sort" id="name-sort">
+                                            <input type="hidden" name="name-sort" value="asc">
+                                        </i>
+                                    </th>
+                                    <th style="width: 16%" class="text-center"> Username
+                                        <i class="glyphicon glyphicon-sort-by-attributes eav-sort" id="username-sort">
+                                            <input type="hidden" name="username-sort" value="asc">
+                                        </i>
+                                    </th>
+                                    <th style="width: 20%" class="text-center"> Email
+                                        <i class="glyphicon glyphicon-sort-by-attributes eav-sort" id="email-sort">
+                                            <input type="hidden" name="email-sort" value="asc">
+                                        </i>
+                                    </th>
+                                    <th style="width: 12%" class="text-center"> Phone</th>
                                     <th style="width: 11%" class="text-center"> Status </th>
                                     <th style="width: 10%" class="text-center"> Action </th>
                                 </tr>
                                 <tr>
                                     <th></th>
                                     <th>
-                                        <input type="text" class="form-control" name="name" value="{{ isset($old['name']) ? $old['name'] : '' }}">
+                                        <input type="text" class="form-control" name="name" value="{{ isset($old['name']) ? $old['name'] : '' }}" id="nameInput">
                                     </th>
                                     <th>
-                                        <input type="text" class="form-control" name="username" value="{{ isset($old['username']) ? $old['username'] : '' }}">
+                                        <input type="text" class="form-control" name="username" value="{{ isset($old['username']) ? $old['username'] : '' }}" id="usernameInput">
                                     </th>
                                     <th>
-                                        <input type="text" class="form-control" name="email" value="{{ isset($old['email']) ? $old['email'] : '' }}">
+                                        <input type="text" class="form-control" name="email" value="{{ isset($old['email']) ? $old['email'] : '' }}" id="emailInput">
                                     </th>
                                     <th>
-                                        <input type="text" class="form-control" name="phone" value="{{ isset($old['phone']) ? $old['phone'] : '' }}">
+                                        <input type="text" class="form-control" name="phone" value="{{ isset($old['phone']) ? $old['phone'] : '' }}" id="phoneInput">
                                     </th>
                                     <th>
-                                        <select name="active" id="" class="form-control">
+                                        <select name="active" id="statusInput" class="form-control">
                                             <option value="1" {{ (isset($old['active']) && $old['active'] == 1) ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ (isset($old['active']) && $old['active'] == 0) ? 'selected' : '' }}>Disable</option>
                                         </select>
@@ -63,7 +72,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="users-content">
                                 <?php
                                     $number = ( $users->currentPage() - 1) * $users->perPage();
                                 ?>
@@ -82,7 +91,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ asset('/admin/user/edit/'.$users[$i]->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                         <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
@@ -92,7 +101,18 @@
 
                         <!-- PAGINATION -->
                         <div class="text-center">
-                            {{ $users->links() }}
+
+                            <nav id="pagination">
+                                <input type="hidden" name="current-page" id="current-page">
+                                <ul class="pagination" id="paginator">
+                                    @for($i = 1; $i <= $users->lastPage(); $i++)
+                                    <li class="page-item @if($i == 1) active @endif">
+                                        <a class="page-link">{{ $i }}</a>
+                                    </li>
+                                    @endfor
+                                </ul>
+                            </nav>
+
                         </div>
                         <!-- END PAGINATION -->
 
@@ -105,13 +125,5 @@
 @endsection
 
 @section('addition-script')
-    <script>
-        $(document).ready(function() {
-
-            $('#refreshBtn').on('click', function() {
-                $('#filterForm input').not('input[name="_token"]').val('');
-            });
-
-        });
-    </script>
+    <script src="{{ asset('js/user/filter.js') }}" type="text/javascript"></script>
 @endsection

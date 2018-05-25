@@ -8,13 +8,13 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="alert alert-success alert-dismissable">
+            <div class="alert alert-success alert-dismissable" id="successMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                <p><strong>Success! </strong>New user have been added</p>
+
             </div>
-            <div class="alert alert-danger alert-dismissable">
+            <div class="alert alert-danger alert-dismissable" id="errorsMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                <p><strong>Error! </strong>New user have not been added</p>
+
             </div>
 
             <!-- BEGIN PROFILE SIDEBAR -->
@@ -23,11 +23,11 @@
                 <div class="portlet light profile-sidebar-portlet ">
                     <!-- SIDEBAR USERPIC -->
                     <div class="profile-userpic">
-                        <img src="{{ asset('assets/pages/media/profile/profile_user.jpg') }}" class="img-responsive" alt=""> </div>
+                        <img src="{{ asset('images/users/'.$user->avatar) }}" class="img-responsive" alt=""> </div>
                     <!-- END SIDEBAR USERPIC -->
                     <!-- SIDEBAR USER TITLE -->
                     <div class="profile-usertitle">
-                        <div class="profile-usertitle-name"> Marcus Doe </div>
+                        <div class="profile-usertitle-name"> {{ $user->name }} </div>
                         <div class="profile-usertitle-job"> Developer </div>
                     </div>
                     <!-- END SIDEBAR USER TITLE -->
@@ -119,86 +119,17 @@
                             <div class="portlet-body">
                                 <div class="tab-content">
                                     <!-- PERSONAL INFO TAB -->
-                                    <div class="tab-pane active" id="tab_1_1">
-                                        <form role="form" action="#">
-                                            <div class="form-group">
-                                                <label class="control-label">First Name</label>
-                                                <input type="text" placeholder="John" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Last Name</label>
-                                                <input type="text" placeholder="Doe" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Mobile Number</label>
-                                                <input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Interests</label>
-                                                <input type="text" placeholder="Design, Web etc." class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Occupation</label>
-                                                <input type="text" placeholder="Web Developer" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">About</label>
-                                                <textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Website Url</label>
-                                                <input type="text" placeholder="http://www.mywebsite.com" class="form-control" /> </div>
-                                            <div class="margiv-top-10">
-                                                <a href="javascript:;" class="btn green"> Save Changes </a>
-                                                <a href="javascript:;" class="btn default"> Cancel </a>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    @include('admin.subpage.user.edit.personal-info')
                                     <!-- END PERSONAL INFO TAB -->
+
                                     <!-- CHANGE AVATAR TAB -->
-                                    <div class="tab-pane" id="tab_1_2">
-                                        <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
-                                            eiusmod. </p>
-                                        <form action="#" role="form">
-                                            <div class="form-group">
-                                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
-                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
-                                                    <div>
-                                                                        <span class="btn default btn-file">
-                                                                            <span class="fileinput-new"> Select image </span>
-                                                                            <span class="fileinput-exists"> Change </span>
-                                                                            <input type="file" name="..."> </span>
-                                                        <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix margin-top-10">
-                                                    <span class="label label-danger">NOTE! </span>
-                                                    <span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
-                                                </div>
-                                            </div>
-                                            <div class="margin-top-10">
-                                                <a href="javascript:;" class="btn green"> Submit </a>
-                                                <a href="javascript:;" class="btn default"> Cancel </a>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    @include('admin.subpage.user.edit.change-avatar')
                                     <!-- END CHANGE AVATAR TAB -->
+
                                     <!-- CHANGE PASSWORD TAB -->
-                                    <div class="tab-pane" id="tab_1_3">
-                                        <form action="#">
-                                            <div class="form-group">
-                                                <label class="control-label">Current Password</label>
-                                                <input type="password" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">New Password</label>
-                                                <input type="password" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Re-type New Password</label>
-                                                <input type="password" class="form-control" /> </div>
-                                            <div class="margin-top-10">
-                                                <a href="javascript:;" class="btn green"> Change Password </a>
-                                                <a href="javascript:;" class="btn default"> Cancel </a>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    @include('admin.subpage.user.edit.change-password')
                                     <!-- END CHANGE PASSWORD TAB -->
+
                                     <!-- PRIVACY SETTINGS TAB -->
                                     <div class="tab-pane" id="tab_1_4">
                                         <form action="#">
@@ -281,4 +212,56 @@
             <!-- END PROFILE CONTENT -->
         </div>
     </div>
+@endsection
+
+@section('addition-script')
+    <script>
+        $(document).ready(function() {
+
+            // Event click submit button
+            $(".submitBtn").on('click', function() {
+
+                $("#successMsg").children('p').remove();
+
+                formId = $(this).parent().parent('form').attr('id');
+                $('input[name="formId"]').val(formId);
+
+                ajaxUpdate(formId);
+
+            });
+
+            // Update user information using Ajax
+            function ajaxUpdate(formId) {
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/user/update",
+                    data: $("#" + formId).serialize(),
+                    success: function(data) {
+
+                        data = JSON.parse(data);
+                        //console.log(data.errors.email);
+
+                        $('html, body').animate({
+                            scrollTop: $('h1.page-title').offset().top
+                        }, 50);
+
+                        if(data.message != null) {
+                            $("#errorsMsg").hide();
+                            $("#successMsg").show();
+                            $("#successMsg").append(`<p><strong>Success! </strong> `+ data.message +`</p>`);
+                        }
+                        else {
+                            $("#successMsg").hide();
+                            $("#errorsMsg").show();
+                            $("#errorsMsg").append(`<p>`+ data['errors'] +`</p>`);
+                            data.errors.forEach(function(value) {
+                                $("#errorsMsg").append(`<p>abc</p>`);
+                            });
+                        }
+
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
