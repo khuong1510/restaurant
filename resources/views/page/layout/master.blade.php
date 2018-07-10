@@ -4,7 +4,7 @@
     @include('page.layout.header')
 </head>
 <body>
-
+<?php $allConfigs = new App\Config(); ?>
 <!--loading icon-->
 <div id="loading">
     <div id="loading-center">
@@ -41,6 +41,7 @@
 <!--script -->
 @include('page.layout.script')
 <!--end script -->
+@yield('addition-script')
 
 </body>
 </html>

@@ -40,14 +40,14 @@
                                             <input type="hidden" name="username-sort" value="asc">
                                         </i>
                                     </th>
-                                    <th style="width: 20%" class="text-center"> Email
+                                    <th style="width: 25%" class="text-center"> Email
                                         <i class="glyphicon glyphicon-sort-by-attributes eav-sort" id="email-sort">
                                             <input type="hidden" name="email-sort" value="asc">
                                         </i>
                                     </th>
                                     <th style="width: 12%" class="text-center"> Phone</th>
                                     <th style="width: 11%" class="text-center"> Status </th>
-                                    <th style="width: 10%" class="text-center"> Action </th>
+                                    <th style="width: 5%" class="text-center"> Action </th>
                                 </tr>
                                 <tr>
                                     <th></th>
@@ -66,7 +66,7 @@
                                     <th>
                                         <select name="active" id="statusInput" class="form-control">
                                             <option value="1" {{ (isset($old['active']) && $old['active'] == 1) ? 'selected' : '' }}>Active</option>
-                                            <option value="0" {{ (isset($old['active']) && $old['active'] == 0) ? 'selected' : '' }}>Disable</option>
+                                            <option value="0" {{ (isset($old['active']) && $old['active'] == 0) ? 'selected' : '' }}>Inactive</option>
                                         </select>
                                     </th>
                                     <th></th>
@@ -83,16 +83,15 @@
                                     <td> {{ $users[$i]->username }} </td>
                                     <td> {{ $users[$i]->email }} </td>
                                     <td> {{ $users[$i]->phone }} </td>
-                                    <td>
+                                    <td class="text-center">
                                         @if($users[$i]->active == 1)
                                             <span class="label label-success"> Active </span>
                                         @else
-                                            <span class="label label-danger"> Disable </span>
+                                            <span class="label label-danger"> Inactive </span>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <a href="{{ asset('/admin/user/edit/'.$users[$i]->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                        <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                                 @endfor
@@ -122,6 +121,7 @@
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
     </div>
+
 @endsection
 
 @section('addition-script')

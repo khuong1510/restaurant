@@ -4,9 +4,6 @@
 <!-- bootstrap -->
 <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
 
-<!-- wow js -->
-<script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>
-
 <!-- mega menu -->
 <script type="text/javascript" src="{{ asset('js/mega-menu/mega_menu.js') }}"></script>
 
@@ -52,3 +49,9 @@ The following part can be removed on Server for On Demand Loading) -->
 
 <!-- custom -->
 <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+
+<!-- wow js -->
+<script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>
+<script>
+    new WOW().init();
+</script>

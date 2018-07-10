@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -35,7 +36,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * create new user
+     * Create new user
+     *
      * @param $array
      */
     public function insertUser($array) {
@@ -66,67 +68,129 @@ class User extends Authenticatable
         $this->save();
     }
 
+    /**
+     * Update user using Ajax
+     *
+     * @param $array
+     * @param $userId
+     * @return array|bool
+     */
     public function updateUser($array, $userId) {
         $message = [];
-
-        $this->find($userId);
-
-        if($array['formId'] == "updateForm") {
-            $rules = [
+        $rules = [
+            'updateForm' => [
                 'email' => ['required',Rule::unique('users')->ignore($userId, 'id'),'email'],
                 'dob'   => 'required',
                 'phone' => ['digits_between: 10,11',Rule::unique('users')->ignore($userId, 'id')],
-            ];
+            ],
+            'updateAvatarForm' => [
+                'avatar' => 'max:6000|dimensions:min_width=100,min_height=100',
+            ],
+            'updatePasswordForm' => [
+                'old_password'  => 'required',
+                'password'      => 'required|confirmed|min:6|different:old_password',
+            ]
+        ];
 
-            $validate = Validator::make($array, $rules);
-            if($validate->fails()) {
-                $message = [
-                    'errors'   => $validate->errors()->messages(),
-                ];
-            }
-            else {
+        $this->find($userId);
+
+        // Change personal information form
+        if($array['formId'] == "updateForm") {
+
+            $message = $this->checkValidate($array, $rules['updateForm']);
+
+            if(!$message) {
                 $this->email    = $array['email'];
                 $this->phone    = $array['phone'];
                 $this->dob      = $array['dob'];
 
                 $message = [
-                    'message'   => "Update user personal information successed.",
+                    'message'   => "Update user personal information successful.",
                 ];
             }
 
         }
+        // Change user avatar form
         elseif ($array['formId'] == "updateAvatarForm") {
-            $message = [
-                'message'   => "Update user avatar successed.",
-            ];
+            if($array['avatar']) {
+                $message = $this->checkValidate($array, $rules['updateAvatarForm']);
+
+                if(!$message) {
+                    $destinationPath = 'images/users/';
+                    $file = $array['avatar'];
+                    $file_extension = $file->getClientOriginalExtension(); //Get file original name
+                    $file_name =  "user_".str_random(4). "." . $file_extension;
+                    $file->move($destinationPath , $file_name);
+                    $this->avatar = $file_name;
+                    $message = [
+                        'message'   => "Update user avatar successful.",
+                        'avatar'    => $file_name
+                    ];
+                }
+
+            }
+            else {
+                $message = [
+                    'errors'   => [ "The avatar field is required."]
+                ];
+            }
+
+        }
+        // Change password form
+        else {
+            $message = $this->checkValidate($array, $rules['updatePasswordForm']);
+
+            if(!$message) {
+                if(!Hash::check($array['old_password'], $this->password)) {
+                    $message = [
+                        'errors'   => [ "Wrong current password." ],
+                    ];
+                }
+                else {
+                    $this->password = bcrypt($array['password']);
+                    $message = [
+                        'message'   => "Update user password successful.",
+                    ];
+                }
+
+            }
         }
 
-        //$this->password = bcrypt($array['password']);
-        //$this->role     = $array['role'];
-        //$this->active   = $array['active'];
-//        if(!empty($array['avatar'])) {
-//            $this->avatar = 'default-user.png';
-//        }
-//        else
-//        {
-//            $destinationPath = 'images/users/';
-//            $file = $array['avatar'];
-//            $file_extension = $file->getClientOriginalExtension(); //Get file original name
-//            $file_name =  "user_".str_random(4). "." . $file_extension;
-//            $file->move($destinationPath , $file_name);
-//            $this->avatar = $file_name;
-//        }
         $this->updated_at = Carbon::now();
-
         $this->save();
-
-
 
         return $message;
     }
 
     /**
+     * Check validate for updateUser function
+     *
+     * @param $array
+     * @param $rules
+     * @return array|bool
+     */
+    public function checkValidate($array, $rules) {
+        $validator = Validator::make($array, $rules);
+
+        if($validator->fails()) {
+            $arrErrors = array();
+            foreach ($validator->errors()->messages() as $msgs) {
+                foreach ($msgs as $msg) {
+                    $arrErrors[] = $msg;
+                }
+            }
+
+            $message = [
+                'errors'   => $arrErrors,
+            ];
+            return $message;
+        }
+        return false;
+    }
+
+    /**
      * Filter user
+     *
      * @param $array
      * @param $pageSize
      * @param $currentPage
@@ -169,6 +233,20 @@ class User extends Authenticatable
         $data['pageSize'] = $pageSize;
 
         return $data;
+    }
+
+    public function changeStatus() {
+
+        if($this->active == 0) {
+            $this->active = 1;
+            $message = [ 'message' => "User have been enabled" ];
+        }
+        else {
+            $this->active = 0;
+            $message = [ 'message' => "User have been disabled" ];
+        }
+        $this->save();
+        return $message;
     }
 
 }

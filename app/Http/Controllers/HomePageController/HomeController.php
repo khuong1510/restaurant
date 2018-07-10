@@ -5,13 +5,16 @@ namespace App\Http\Controllers\HomePageController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Config;
+
 class HomeController extends Controller
 {
     /**
      * Show index page
      */
     public function index() {
-        return view('page.subpage.homepage.index');
+        $allConfigs = new Config();
+        return view('page.subpage.homepage.index', [ 'allConfigs' => $allConfigs ]);
     }
 
     /**

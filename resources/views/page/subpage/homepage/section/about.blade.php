@@ -40,7 +40,7 @@
                             <div class="main">
                                 <div id="bookshelf" class="bookshelf">
                                     <figure>
-                                        <div class="book" data-book="book-1"></div>
+                                        <div class="book wow bounce" data-book="book-1"></div>
                                         <div class="buttons">
                                             <a href="#" class="button black medium mb-20">
                                                 <span>Open menu</span>

@@ -55,7 +55,7 @@
 
         <div class="margiv-top-10">
             <button type="button" class="btn green submitBtn"> Save Changes </button>
-            <a href="javascript:;" class="btn default"> Cancel </a>
+            {{--<a href="javascript:;" class="btn default"> Cancel </a>--}}
         </div>
     </form>
 </div>

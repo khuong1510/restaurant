@@ -7,23 +7,6 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-
-            @if(session('message'))
-            <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                <p><strong>Success! </strong>{{ session('message') }}</p>
-            </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
-
             <!-- BEGIN SAMPLE FORM PORTLET-->
             <div class="portlet light ">
                 <div class="portlet-title">
@@ -39,7 +22,7 @@
                             <div class="col-md-6">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label>Full Name</label>
+                                        <label>Full Name <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-user font-red"></i>
@@ -48,7 +31,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Username</label>
+                                        <label>Username <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-user-plus font-red"></i>
@@ -57,7 +40,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Email Address</label>
+                                        <label>Email Address <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-envelope font-red"></i>
@@ -66,7 +49,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Phone</label>
+                                        <label>Phone <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-phone font-red"></i>
@@ -97,6 +80,7 @@
                                     </div>
 
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <p>Avatar <span class="text-danger">*</span></p>
                                         <div class="fileinput-new thumbnail" style="width: 300px; height: 230px;">
                                             <img src="http://www.placehold.it/300x230/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 300px; max-height: 230px;"> </div>
@@ -122,7 +106,7 @@
                             <div class="col-md-6">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label>Birthday</label>
+                                        <label>Birthday <span class="text-danger">*</span></label>
                                         <div class="input-group date date-picker" data-date="1990-01-01" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-calendar font-red"></i>
@@ -132,7 +116,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Password</label>
+                                        <label>Password <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-key font-red"></i>
@@ -142,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Retype Password</label>
+                                        <label>Retype Password <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                  <i class="fa fa-key font-red"></i>
@@ -197,7 +181,7 @@
                             </div>
                         </div>
                         <div class="form-actions text-right">
-                            <button type="button" class="btn default">Refresh</button>
+                            <a href="{{ asset('/admin/user') }}" class="btn default">Back</a>
                             <button type="submit" class="btn blue">Submit</button>
                         </div>
                     </form>

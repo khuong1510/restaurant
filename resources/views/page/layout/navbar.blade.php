@@ -5,17 +5,17 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="topbar-left text-left">
                         <ul>
-                            <li><i class="fa fa-phone"></i> (01) 123 456 7890 </li>
-                            <li><i class="fa fa-envelope-o"></i> support@website.com</li>
+                            <li><i class="fa fa-phone"></i> {{ $allConfigs->getValue('home_phone') }} </li>
+                            <li><i class="fa fa-envelope-o"></i> {{ $allConfigs->getValue('home_email') }} </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="topbar-right text-right">
                         <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i> </a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i> </a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i> </a></li>
+                            <li><a href="{{ $allConfigs->getValue('home_social_fb') }}"><i class="fa fa-facebook"></i> </a></li>
+                            <li><a href="{{ $allConfigs->getValue('home_social_twitter') }}"><i class="fa fa-twitter"></i> </a></li>
+                            <li><a href="{{ $allConfigs->getValue('home_social_instagram') }}"><i class="fa fa-instagram"></i> </a></li>
                             <li><div class="search-1">
                                     <a class="search-btn" href="javascript:void(0);"></a>
                                     <!-- Overlay Search -->

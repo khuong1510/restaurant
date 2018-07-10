@@ -41,7 +41,11 @@
 
             <!-- BEGIN PAGE HEADER-->
             @include('admin.layout.content-header')
-            <!-- END PAGE HEADER-->
+            <!-- END PAGE HEADER -->
+
+            <!-- BEGIN MESSAGE -->
+            @include('admin.layout.message')
+            <!-- END MESSAGE -->
 
             <!-- BEGIN CONTENT -->
             @yield('content')

@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="alert alert-success alert-dismissable" id="successMsg" style="display: none">
+            <div class="alert alert-success alert-dismissable reportMsg" id="successMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
 
             </div>
-            <div class="alert alert-danger alert-dismissable" id="errorsMsg" style="display: none">
+            <div class="alert alert-danger alert-dismissable reportMsg" id="errorsMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
 
             </div>
@@ -23,7 +23,8 @@
                 <div class="portlet light profile-sidebar-portlet ">
                     <!-- SIDEBAR USERPIC -->
                     <div class="profile-userpic">
-                        <img src="{{ asset('images/users/'.$user->avatar) }}" class="img-responsive" alt=""> </div>
+                        <img src="{{ asset('images/users/'.$user->avatar) }}" class="img-responsive" id="userAvatar">
+                    </div>
                     <!-- END SIDEBAR USERPIC -->
                     <!-- SIDEBAR USER TITLE -->
                     <div class="profile-usertitle">
@@ -33,8 +34,8 @@
                     <!-- END SIDEBAR USER TITLE -->
                     <!-- SIDEBAR BUTTONS -->
                     <div class="profile-userbuttons">
-                        <button type="button" class="btn btn-circle green btn-sm">Follow</button>
-                        <button type="button" class="btn btn-circle red btn-sm">Message</button>
+                        <button type="button" class="btn btn-circle btn-status green btn-sm {{ ($user->active == 1) ? "disabled" : "" }}">{{ ($user->active == 1) ? "Enabled" : "Enable" }}</button>
+                        <button type="button" class="btn btn-circle btn-status red btn-sm {{ ($user->active == 0) ? "disabled" : "" }}">{{ ($user->active == 0) ? "Disabled" : "Disable" }}</button>
                     </div>
                     <!-- END SIDEBAR BUTTONS -->
                     <!-- SIDEBAR MENU -->
@@ -212,56 +213,28 @@
             <!-- END PROFILE CONTENT -->
         </div>
     </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Change User Status</h4>
+                </div>
+                <div class="modal-body" id="modal_status"> Do you want to _message this user? </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn green" data-id="{{ $user->id }}" id="btnYes">Yes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- END MODAL -->
 @endsection
 
 @section('addition-script')
-    <script>
-        $(document).ready(function() {
-
-            // Event click submit button
-            $(".submitBtn").on('click', function() {
-
-                $("#successMsg").children('p').remove();
-
-                formId = $(this).parent().parent('form').attr('id');
-                $('input[name="formId"]').val(formId);
-
-                ajaxUpdate(formId);
-
-            });
-
-            // Update user information using Ajax
-            function ajaxUpdate(formId) {
-                $.ajax({
-                    method: "POST",
-                    url: "/admin/user/update",
-                    data: $("#" + formId).serialize(),
-                    success: function(data) {
-
-                        data = JSON.parse(data);
-                        //console.log(data.errors.email);
-
-                        $('html, body').animate({
-                            scrollTop: $('h1.page-title').offset().top
-                        }, 50);
-
-                        if(data.message != null) {
-                            $("#errorsMsg").hide();
-                            $("#successMsg").show();
-                            $("#successMsg").append(`<p><strong>Success! </strong> `+ data.message +`</p>`);
-                        }
-                        else {
-                            $("#successMsg").hide();
-                            $("#errorsMsg").show();
-                            $("#errorsMsg").append(`<p>`+ data['errors'] +`</p>`);
-                            data.errors.forEach(function(value) {
-                                $("#errorsMsg").append(`<p>abc</p>`);
-                            });
-                        }
-
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="{{ asset('js/user/update.js') }}" type="text/javascript"></script>
 @endsection

@@ -51,7 +51,7 @@ $(document).ready(function() {
             for(i = 0; i < data.length; i++) {
                 if(data[i].active == 1)
                     status = '<span class="label label-success"> Active </span>';
-                else status = '<span class="label label-danger"> Disable </span>';
+                else status = '<span class="label label-danger"> Inactive </span>';
                 $('#users-content').append(`
                             <tr>
                                  <td>`+ (i + 1 + number) +`</td>
@@ -59,10 +59,9 @@ $(document).ready(function() {
                                  <td>`+ data[i].username +`</td>
                                  <td>`+ data[i].email +`</td>
                                  <td>`+ data[i].phone +`</td>
-                                 <td>`+ status +`</td>
-                                 <td>
+                                 <td class="text-center">`+ status +`</td>
+                                 <td class="text-center">
                                       <a href="/admin/user/edit/`+ data[i].id +`" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                      <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
                                  </td>
                             </tr>
                         `);
@@ -94,7 +93,6 @@ $(document).ready(function() {
             $( ".page-link:contains('"+currentPage+"')" ).filter(function() {
                 return $(this).text() == currentPage;
             }).parent().addClass('active');
-
         });
 
     }

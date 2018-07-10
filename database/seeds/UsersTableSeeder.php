@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin_'.str_random(3).'@gmail.com',
             'phone' => '0123456789',
             'gender' => 1,
-            'avatar' => '/img_management/user/profile_user.jpg',
+            'avatar' => '/images/users/profile_user.jpg',
             'dob'   => '1995-10-15',
             'active' => 1,
             'password' => bcrypt('12345678')

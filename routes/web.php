@@ -51,8 +51,21 @@ Route::group([  'prefix' => '/admin',
         Route::get('/edit/{id}', 'UserController@edit');
         Route::post('/update', 'UserController@update');
 
+        // Disable user
+        Route::get('change-status', 'UserController@changeUserStatus');
+
     });
     // ======== END USERS MANAGEMENT ==========
+
+    // ======== CONFIG MANAGEMENT ==========
+    Route::group(['prefix' => '/config'], function() {
+
+        // Get homepage config
+        Route::get('/homepage', 'ConfigController@showHomepage');
+        Route::post('/homepage', 'ConfigController@updateHomepage');
+
+    });
+    // ======== END CONFIG MANAGEMENT ==========
 
 });
 

@@ -1,17 +1,4 @@
 <!DOCTYPE html>
-<!--
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
-Version: 4.6
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-Renew Support: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -20,8 +7,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 
 <head>
+    <?php $config = new App\Config;?>
     <meta charset="utf-8" />
-    <title>Metronic | User Login 2</title>
+    <title>{{ $config->getValue('home_name') }} Admin Login</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="" name="description" />
@@ -36,8 +24,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <body class=" login">
 <!-- BEGIN LOGO -->
 <div class="logo">
-    <a href="index.html">
-        <img src="../assets/pages/img/logo-big-white.png" style="height: 17px;" alt="" /> </a>
+    <a href="#">
+        <img src="{{ asset($config->getValue('home_logo') ) }}" style="width: 160px;" alt="" /> </a>
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
@@ -53,10 +41,17 @@ License: You must have a valid license purchased only from themeforest(the above
             <button class="close" data-close="alert"></button>
             <span> Enter any username and password. </span>
         </div>
+        @if(Session::has('messages') || Session::has('sc_messages'))
+            <div class="alert {{ Session::has('messages') ? 'alert-danger' : 'alert-success' }}">
+                <button class="close" data-close="alert"></button>
+                    <span>{{ Session::has('messages') ? Session::get('messages') : Session::get('sc_messages') }}</span>
+            </div>
+        @endif
+
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
             <label class="control-label visible-ie8 visible-ie9">Username</label>
-            <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" /> </div>
+            <input class="form-control form-control-solid placeholder-no-fix" value="{{ !empty($oldUsername) ? $oldUsername : '' }}" type="text" autocomplete="off" placeholder="Username" name="username" value="{{ old('username') }}" /> </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" /> </div>
