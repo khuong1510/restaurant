@@ -16,62 +16,84 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    {!! Form::open(['url' => 'foo/bar']) !!}
+                    {!! Form::open(['route' => 'navbar.store']) !!}
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-body">
                             <div class="form-group">
                               {!! Form::label('name','Name') !!}
-                                <span class="text-danger"> * <span>
+                                <span class="text-danger"> * </span>
                                 <div class="input-group">
                                   <span class="input-group-addon">
                                     <i class="fa fa-user font-red"></i>
                                   </span>
                                   {!! Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Name']) !!}
                                 </div>
+                                <h5 class="text-dark"> Enter a page name. Example: Contact </h5>
                             </div> 
                             <div class="form-group">
                               {!! Form::label('link','Link') !!}
-                                <span class="text-danger"> * <span>
+                                <span class="text-danger"> * </span>
                                 <div class="input-group">
                                   <span class="input-group-addon">
-                                    <i class="fa fa-user font-red"></i>
+                                    <i class="fa fa-link font-red"></i>
                                   </span>
                                   {!! Form::text('link', old('link'), ['class' => 'form-control', 'placeholder' => 'Link']) !!}
                                 </div>
+                                <h5 class="text-dark"> Enter a page link. Example: /user/add </h5>
                             </div> 
                             <div class="form-group">
                               {!! Form::label('alias','Alias') !!}
-                                <span class="text-danger"> * <span>
                                 <div class="input-group">
                                   <span class="input-group-addon">
-                                    <i class="fa fa-user font-red"></i>
+                                    <i class="fa fa-th-large font-red"></i>
                                   </span>
                                   {!! Form::text('alias', old('alias'), ['class' => 'form-control', 'placeholder' => 'Alias']) !!}
                                 </div>
+                                <h5 class="text-dark"> This field is used for alias name </h5>
                             </div> 
                             <div class="form-group">
                               {!! Form::label('page','Page In use') !!}
-                                <span class="text-danger"> * <span>
+                                <span class="text-danger"> * </span>
                                 <div class="input-group">
                                   <span class="input-group-addon">
-                                    <i class="fa fa-user font-red"></i>
+                                    <i class="fa fa-paperclip font-red"></i>
                                   </span>
                                   {!! Form::select('page', 
                                     [
-                                      'Select Page' => '',
-                                      'Admin' => 'admin',
-                                      'Client' => 'client'
+                                      '' => 'Select page',
+                                      'admin' => 'Admin',
+                                      'client' => 'Client'
                                     ],
-                                    ,
                                     'Select Page'
                                     ,
                                    ['class' => 'form-control']) !!}
                                 </div>
+                                <h5 class="text-dark"> The page is used for Admin or Client </h5>
+                            </div> 
+                            <div class="form-group">
+                              {!! Form::label('parent_id','Parent Id') !!}
+                                <span class="text-danger"> * </span>
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-list font-red"></i>
+                                  </span>
+                                  {!! Form::select('page', 
+                                    [
+                                      '' => 'Select Parent',
+                                      '0' => 'Parent',
+                                    ],
+                                    'Select Parent'
+                                    ,
+                                   ['class' => 'form-control']) !!}
+                                </div>
+                                <h5 class="text-dark"> Create an sub menu with the parent id. Default menu will be parent </h5>
                             </div> 
                         </div>
                       </div>
                     </div>
+                      {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
+                      {!! Form::reset('Clear', ['class' => 'btn btn-default']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>

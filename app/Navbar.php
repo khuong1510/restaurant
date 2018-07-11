@@ -10,7 +10,7 @@ class Navbar extends Model
   protected $fillable = ['name','link','alias','parent_id'];
 
   public function insertOne($array){
-
+    print_r($array);
   }
 
 }

@@ -44,7 +44,7 @@ Route::group([  'prefix' => '/admin',
       
       // Display page create new navbar and execute
       Route::get('/add', 'NavBarController@create');
-      Route::post('/store', 'NavBarController@store');
+      Route::post('/store', 'NavBarController@store')->name('navbar.store');
 
     });
         // =============== END NavBar PAGE =================
