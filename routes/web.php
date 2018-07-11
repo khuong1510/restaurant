@@ -26,7 +26,6 @@ Route::group(['prefix' => '/', 'namespace'=>'HomePageController'], function() {
 });
 // =============== END HOME PAGE =================
 
-
 // =============== ADMIN PAGE =================
 Route::group([  'prefix' => '/admin',
                 'namespace'=>'AdminController',
@@ -35,6 +34,20 @@ Route::group([  'prefix' => '/admin',
     Route::get('/', function () {
         return view('admin.subpage.dashboard.dashboard');
     });
+
+        // =============== NavBar PAGE =================
+
+    Route::group(['prefix' => '/navbar'], function(){
+      
+      // Get navbar list
+      Route::get('/', 'NavBarController@index');
+      
+      // Display page create new navbar and execute
+      Route::get('/add', 'NavBarController@create');
+      Route::post('/store', 'NavBarController@store');
+
+    });
+        // =============== END NavBar PAGE =================
 
     // ======== USERS MANAGEMENT ==========
     Route::group(['prefix' => '/user'], function() {
@@ -66,7 +79,6 @@ Route::group([  'prefix' => '/admin',
 
     });
     // ======== END CONFIG MANAGEMENT ==========
-
 });
 
 Route::get('/admin/login', 'AdminController\UserController@getLogin');
