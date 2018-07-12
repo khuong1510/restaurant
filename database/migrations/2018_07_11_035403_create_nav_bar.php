@@ -16,7 +16,7 @@ class CreateNavBar extends Migration
         Schema::create('navbar', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('alias')->default('');
+            $table->string('alias')->nullable();
             $table->text('link');
             $table->integer('parent_id')->default(0);
             $table->timestamps();

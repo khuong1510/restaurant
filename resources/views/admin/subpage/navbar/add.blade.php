@@ -29,7 +29,7 @@
                                   </span>
                                   {!! Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Name']) !!}
                                 </div>
-                                <h5 class="text-dark"> Enter a page name. Example: Contact </h5>
+                                <h5 class="text-dark"> <i> Enter a page name. Example: Contact </i> </h5>
                             </div> 
                             <div class="form-group">
                               {!! Form::label('link','Link') !!}
@@ -40,8 +40,18 @@
                                   </span>
                                   {!! Form::text('link', old('link'), ['class' => 'form-control', 'placeholder' => 'Link']) !!}
                                 </div>
-                                <h5 class="text-dark"> Enter a page link. Example: /user/add </h5>
-                            </div> 
+                                <h5 class="text-dark"> <i> Enter a page link. Example: /user/add </i> </h5>
+                            </div>
+                            <div class="form-group">
+                              {!! Form::label('icon','Icon') !!}
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-th-large font-red"></i>
+                                  </span>
+                                  {!! Form::text('icon', old('icon'), ['class' => 'form-control', 'placeholder' => 'Icon']) !!}
+                                </div>
+                                <h5 class="text-dark"> <i> This field is used for creating an icon </i> </h5>
+                            </div>  
                             <div class="form-group">
                               {!! Form::label('alias','Alias') !!}
                                 <div class="input-group">
@@ -50,7 +60,7 @@
                                   </span>
                                   {!! Form::text('alias', old('alias'), ['class' => 'form-control', 'placeholder' => 'Alias']) !!}
                                 </div>
-                                <h5 class="text-dark"> This field is used for alias name </h5>
+                                <h5 class="text-dark"> <i> This field is used for alias name </i> </h5>
                             </div> 
                             <div class="form-group">
                               {!! Form::label('page','Page In use') !!}
@@ -69,7 +79,7 @@
                                     ,
                                    ['class' => 'form-control']) !!}
                                 </div>
-                                <h5 class="text-dark"> The page is used for Admin or Client </h5>
+                                <h5 class="text-dark"> <i> The page is used for Admin or Client </i> </h5>
                             </div> 
                             <div class="form-group">
                               {!! Form::label('parent_id','Parent Id') !!}
@@ -78,16 +88,16 @@
                                   <span class="input-group-addon">
                                     <i class="fa fa-list font-red"></i>
                                   </span>
-                                  {!! Form::select('page', 
+                                  {!! Form::select('parent_id', 
                                     [
                                       '' => 'Select Parent',
-                                      '0' => 'Parent',
+                                      '1' => 'Parent',
                                     ],
                                     'Select Parent'
                                     ,
                                    ['class' => 'form-control']) !!}
                                 </div>
-                                <h5 class="text-dark"> Create an sub menu with the parent id. Default menu will be parent </h5>
+                                <h5 class="text-dark"> <i> Create an sub menu with the parent id. Default menu will be parent </i> </h5>
                             </div> 
                         </div>
                       </div>

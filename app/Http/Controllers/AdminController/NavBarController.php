@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\AdminController;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\NavBarRequest;
 use App\NavBar;
 use App\Http\Controllers\Controller;
 
 class NavBarController extends Controller
 {
 
+    protected $navBar;
+
+    public function __construct(){
+      $this->navBar = new Navbar;
+    }
     public function test(){
       echo 'test';
     }
@@ -20,7 +26,8 @@ class NavBarController extends Controller
      */
     public function index()
     {
-        echo 1;
+      $navBarList = $this->navBar->getAll();
+      return view('admin.subpage.navbar.show', compact('navBarList'));
     }
 
     /**
@@ -40,10 +47,10 @@ class NavBarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NavBarRequest $request)
     {
-        $navBar = new NavBar;
-        $navBar->insertOne($request->all());
+        $this->navBar->insertOne($request->all());
+        return redirect()->back()->with('success_message', 'New navbar have been added');
     }
 
     /**
