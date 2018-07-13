@@ -15,7 +15,7 @@ class NavBarComposer
 
     public function compose(View $view)
     {
-      $navBarList = $this->navBar->getAll();
-      $view->with('navBarList',$navBarList);
+      $navBarList = $this->navBar->getAll('admin');
+      $view->with('navBarList', $navBarList);
     }
 }

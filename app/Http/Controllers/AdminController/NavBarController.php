@@ -37,8 +37,8 @@ class NavBarController extends Controller
      */
     public function create()
     {
-        //
-       return view('admin.subpage.navbar.add');
+       $navBar = [];
+       return view('admin.subpage.navbar.add', compact($navBar));
     }
 
     /**
@@ -72,7 +72,8 @@ class NavBarController extends Controller
      */
     public function edit($id)
     {
-        //
+      $navBar = $this->navBar->getOne($id);
+      return view('admin.subpage.navbar.add', compact('navBar'));
     }
 
     /**
@@ -84,7 +85,7 @@ class NavBarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo '123';
     }
 
     /**

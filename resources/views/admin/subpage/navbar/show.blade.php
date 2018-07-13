@@ -87,7 +87,7 @@
                                     <td> {{ $navBar->page }} </td>
                                     <td> {{ $navBar->parent_id }} </td>
                                     <td class="text-center">
-                                        <a href="{{ asset('/admin/navbar/edit/'.$navBar->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ url('/admin/navbar/edit/'.$navBar->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                     </td>
                                 </tr>
                                 @endforEach

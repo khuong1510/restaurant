@@ -46,6 +46,10 @@ Route::group([  'prefix' => '/admin',
       Route::get('/add', 'NavBarController@create');
       Route::post('/store', 'NavBarController@store')->name('navbar.store');
 
+      // Get edit page and execute
+      Route::get('/edit/{id}', 'NavBarController@edit');
+      Route::put('/update', 'NavBarController@update')->name('navbar.update');
+
     });
         // =============== END NavBar PAGE =================
 

@@ -12,11 +12,22 @@
                 <div class="portlet-title">
                     <div class="caption font-red-sunglo">
                         <i class="icon-settings font-red-sunglo"></i>
-                        <span class="caption-subject bold uppercase"> Create New NavBar </span>
+                        <span class="caption-subject bold uppercase">
+                        @if(!empty($navBar))
+                          Edit Navbar
+                        @else
+                          Create New NavBar 
+                        @endif
+                        </span>
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    {!! Form::open(['route' => 'navbar.store']) !!}
+                    @if(!empty($navBar))
+                      {!! Form::model($navBar, ['route' => ['navbar.update', $navBar] , 'method' => 'put' ]) !!}
+                    @else
+                      {!! Form::open(['route' => 'navbar.store']) !!}
+                    @endif  
+                    
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-body">
@@ -56,7 +67,7 @@
                               {!! Form::label('alias','Alias') !!}
                                 <div class="input-group">
                                   <span class="input-group-addon">
-                                    <i class="fa fa-th-large font-red"></i>
+                                    <i class="fa fa-chain-broken font-red"></i>
                                   </span>
                                   {!! Form::text('alias', old('alias'), ['class' => 'form-control', 'placeholder' => 'Alias']) !!}
                                 </div>
@@ -88,21 +99,20 @@
                                   <span class="input-group-addon">
                                     <i class="fa fa-list font-red"></i>
                                   </span>
-                                  {!! Form::select('parent_id', 
-                                    [
-                                      '' => 'Select Parent',
-                                      '1' => 'Parent',
-                                    ],
-                                    'Select Parent'
-                                    ,
-                                   ['class' => 'form-control']) !!}
+                                   <select name="parent_id" class="form-control">
+                                     <option value=""> Select Parent </option>
+                                     <option value="0"> Parent </option>
+                                    {!!  
+                                      Helper::convertArrayForFormCollective($navBarList);
+                                    !!}
+                                  </select>
                                 </div>
                                 <h5 class="text-dark"> <i> Create an sub menu with the parent id. Default menu will be parent </i> </h5>
                             </div> 
                         </div>
                       </div>
                     </div>
-                      {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
+                      {!! Form::submit('Save Changes', ['class' => 'btn green']) !!}
                       {!! Form::reset('Clear', ['class' => 'btn btn-default']) !!}
                     {!! Form::close() !!}
                 </div>
