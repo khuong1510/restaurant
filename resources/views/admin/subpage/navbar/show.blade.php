@@ -19,7 +19,7 @@
                             <button class="dt-button buttons-html5 btn" type="button" id="refreshBtn">
                                 <i class="fa fa-refresh"></i> Refresh
                             </button>
-                            <a href="{{ asset('/admin/user/add') }}"
+                            <a href="{{ asset('/admin/navbar/add') }}"
                                class="dt-button buttons-html5 btn green">
                                 <i class="fa fa-plus"></i> Add
                             </a>

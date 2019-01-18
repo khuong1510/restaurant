@@ -1,5 +1,5 @@
 <div class="tab-pane" id="tab_1_3">
-    <form id="updatePasswordForm" method="POST">
+    <form id="updatePasswordForm" method="POST" data-action="{{ asset("/admin/user/update") }}">
         {{ csrf_field() }}
         <input type="hidden" class="form-control" name="userId" value="{{ $user->id }}" />
         <input type="hidden" class="form-control" name="formId" />

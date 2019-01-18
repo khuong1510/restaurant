@@ -10,6 +10,7 @@
             <div class="portlet light ">
                 <form method="POST" id="filterForm" autocomplete="off">
                     {{ csrf_field() }}
+                    <input type="hidden" value="{{ asset('/admin/user') }}" id="filter-link" />
                     <div class="portlet-title">
                         <div class="caption font-red-sunglo">
                             <h4 class="caption-subject bold uppercase"><i class="icon-settings font-red-sunglo"></i> List Users</h4>

@@ -22,7 +22,7 @@
                 <!-- PORTLET MAIN -->
                 <div class="portlet light profile-sidebar-portlet ">
                     <!-- SIDEBAR USERPIC -->
-                    <div class="profile-userpic">
+                    <div class="fileinput-new thumbnail">
                         <img src="{{ asset('images/users/'.$user->avatar) }}" class="img-responsive" id="userAvatar">
                     </div>
                     <!-- END SIDEBAR USERPIC -->
@@ -34,23 +34,13 @@
                     <!-- END SIDEBAR USER TITLE -->
                     <!-- SIDEBAR BUTTONS -->
                     <div class="profile-userbuttons">
+                        <input type="hidden" value="{{ asset("/admin/user/change-status") }}" id="change-status-link" />
                         <button type="button" class="btn btn-circle btn-status green btn-sm {{ ($user->active == 1) ? "disabled" : "" }}">{{ ($user->active == 1) ? "Enabled" : "Enable" }}</button>
                         <button type="button" class="btn btn-circle btn-status red btn-sm {{ ($user->active == 0) ? "disabled" : "" }}">{{ ($user->active == 0) ? "Disabled" : "Disable" }}</button>
                     </div>
                     <!-- END SIDEBAR BUTTONS -->
                     <!-- SIDEBAR MENU -->
-                    <div class="profile-usermenu">
-                        <ul class="nav">
-                            <li>
-                                <a href="page_user_profile_1.html">
-                                    <i class="icon-home"></i> Overview </a>
-                            </li>
-                            <li class="active">
-                                <a href="page_user_profile_1_account.html">
-                                    <i class="icon-settings"></i> Account Settings </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="profile-usermenu"></div>
                     <!-- END MENU -->
                 </div>
                 <!-- END PORTLET MAIN -->

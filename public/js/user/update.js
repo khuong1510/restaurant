@@ -1,8 +1,6 @@
 $(document).ready(function() {
-
     // Event click submit button
     $(".submitBtn").on('click', function() {
-
         $("#successMsg").children('p').remove();
         $("#errorsMsg").children('p').remove();
 
@@ -23,7 +21,7 @@ $(document).ready(function() {
     function ajaxUpdate(formId) {
         $.ajax({
             method: "POST",
-            url: "/admin/user/update",
+            url: $("#" + formId).attr('data-action'),
             data: $("#" + formId).serialize(),
             success: function(data) {
                 executeMessage(data);
@@ -35,6 +33,7 @@ $(document).ready(function() {
     $("form#updateAvatarForm").submit(function(e) {
         e.preventDefault();
         var formData = new FormData(this);
+        var imagesStorage = $("#images-link").val() + '/';
 
         $.ajax({
             url: $(this).attr('action'),
@@ -46,8 +45,8 @@ $(document).ready(function() {
                 data = JSON.parse(data);
 
                 if(data.avatar) {
-                    $('#userAvatar').attr('src', "/images/users/" + data.avatar);
-                    $('#userThumbnailAvatar').attr('src', "/images/users/" + data.avatar);
+                    $('#userAvatar').attr('src', imagesStorage + data.avatar);
+                    $('#userThumbnailAvatar').attr('src', imagesStorage + data.avatar);
                 }
 
             },
@@ -68,14 +67,14 @@ $(document).ready(function() {
         if(data.message != null) {
             $(".reportMsg").hide();
             $("#successMsg").show();
-            $("#successMsg").append(`<p><strong>Success! </strong> `+ data.message +`</p>`);
+            $("#successMsg").append("<p><strong>Success! </strong> "+ data.message +"</p>");
         }
         else {
             $(".reportMsg").hide();
             $("#errorsMsg").show();
 
             for(i = 0; i < data.errors.length; i++) {
-                $("#errorsMsg").append(`<p>`+ data.errors[i] +`</p>`);
+                $("#errorsMsg").append("<p>"+ data.errors[i] +"</p>");
             }
         }
     }
@@ -92,9 +91,8 @@ $(document).ready(function() {
         $("#btnYes").on("click", function() {
             $('#basic').modal('hide');
             userId = $('#btnYes').attr('data-id');
-            //alert(userId);
 
-            $.get("/admin/user/change-status", { id: userId })
+            $.get($("#change-status-link").val(), { id: userId })
                 .done(function( data ) {
                     window.location.reload();
                 });

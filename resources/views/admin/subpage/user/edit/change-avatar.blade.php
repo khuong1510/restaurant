@@ -2,7 +2,8 @@
     <p> Change user avatar. </p>
     <form id="updateAvatarForm" action="{{ asset('/admin/user/update') }}" enctype="multipart/form-data">
         {{ csrf_field() }}
-        <input type="hidden" class="form-control" name="userId" value="{{ $user->id }}" />
+        <input type="hidden" name="userId" value="{{ $user->id }}" />
+        <input type="hidden" id="images-link" value="{{ asset('/images/users/') }}" />
         <input type="hidden" class="form-control" name="formId" />
         <div class="form-group">
             <div class="fileinput fileinput-new" data-provides="fileinput">

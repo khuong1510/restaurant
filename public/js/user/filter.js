@@ -17,10 +17,9 @@ $(document).ready(function() {
 
     // Ajax function get products after filtering
     function filterAjax() {
-
         $.ajax({
             method: "POST",
-            url: "/admin/user",
+            url: $("#filter-link").val(),
             data: $('#filterForm').serialize()
         }).done(function(array) {
 
@@ -133,7 +132,6 @@ $(document).ready(function() {
         else {
             $(this).children('input').val('desc');
         }
-
         filterAjax();
     });
 

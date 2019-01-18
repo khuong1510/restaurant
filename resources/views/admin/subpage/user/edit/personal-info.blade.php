@@ -1,5 +1,5 @@
 <div class="tab-pane active" id="tab_1_1">
-    <form role="form" id="updateForm" method="POST">
+    <form role="form" id="updateForm" method="POST" data-action="{{ asset("/admin/user/update") }}">
         {{ csrf_field() }}
         <input type="hidden" class="form-control" name="userId" value="{{ $user->id }}" />
         <input type="hidden" class="form-control" name="formId" />

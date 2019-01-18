@@ -38,18 +38,16 @@ Route::group([  'prefix' => '/admin',
         // =============== NavBar PAGE =================
 
     Route::group(['prefix' => '/navbar'], function(){
-      
-      // Get navbar list
-      Route::get('/', 'NavBarController@index');
-      
-      // Display page create new navbar and execute
-      Route::get('/add', 'NavBarController@create');
-      Route::post('/store', 'NavBarController@store')->name('navbar.store');
+        // Get navbar list
+        Route::get('/', 'NavBarController@index');
 
-      // Get edit page and execute
-      Route::get('/edit/{id}', 'NavBarController@edit');
-      Route::put('/update', 'NavBarController@update')->name('navbar.update');
+        // Display page create new navbar and execute
+        Route::get('/add', 'NavBarController@create');
+        Route::post('/store', 'NavBarController@store')->name('navbar.store');
 
+        // Get edit page and execute
+        Route::get('/edit/{id}', 'NavBarController@edit');
+        Route::put('/update', 'NavBarController@update')->name('navbar.update');
     });
         // =============== END NavBar PAGE =================
 
