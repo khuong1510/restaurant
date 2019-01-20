@@ -3,7 +3,7 @@
 
 class Helper
 {
-
+    // --------------------------- HTML HELPER -----------------------------------
     public static function showMenuSideBar($navBar, $parent_id = 0, $stt = 1){
         $cate_child = array();
 
@@ -46,7 +46,6 @@ class Helper
     public static function convertArrayForFormCollective($navBar, $parent_id = 0, $char = ''){
         foreach ($navBar as $key => $item)
         {
-
             if ($item['parent_id'] == $parent_id)
             {
                 echo '<option value="'.$item['id'].'">';
@@ -60,4 +59,167 @@ class Helper
         }
     }
 
+    public static function showActiveLabel($isActive)
+    {
+        if($isActive == 1)
+            return '<span class="label label-success"> Active </span>';
+        else
+            return '<span class="label label-danger"> Inactive </span>';
+    }
+
+    /**
+     * Render table header
+     *
+     * @param $listField
+     * @return string
+     */
+    public static function showTableHeader($listField)
+    {
+        $htmlContent = '';
+        foreach($listField as $field)
+        {
+            $filterIcon = '';
+            if($field != "active")
+                $filterIcon = '
+                <i class="glyphicon glyphicon-sort-by-attributes eav-sort" id="rtr-sort-'.$field.'">
+                    <input type="hidden" name="'.$field.'-sort" value="asc">
+                </i>';
+            $htmlContent .= '
+                <th class="text-center text-capitalize">'.$field.'
+                '.$filterIcon.'
+                </th>';
+        }
+
+        return '
+            <tr class="success">
+                <th style="width: 5%" class="text-center"> No. </th>
+                '.$htmlContent.'
+                <th style="width: 5%" class="text-center"> Action </th>
+             </tr>';
+    }
+
+    public static function showFilterRow($listField)
+    {
+        $htmlContent = '';
+        foreach($listField as $field)
+        {
+            if($field != "active")
+                $htmlContent .= '<th><input type="text" class="form-control" name="'.$field.'" id="rtr-input-'.$field.'"></th>';
+            else $htmlContent .= '
+                <th>
+                    <select name="'.$field.'" id="rtr-input-'.$field.'" class="form-control">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </th>';
+        }
+
+        return '
+        <tr>
+             <th></th>
+             '.$htmlContent.'
+             <th></th>
+        </tr>
+        ';
+    }
+
+    public static function showItemsRow($object, $listField, $index, $rootUrl)
+    {
+        $htmlContent = '';
+        for($i = 0; $i < count($object); $i++)
+        {
+            $editUrl = asset('/admin/'.$rootUrl.'/edit/'.$object[$i]->id);
+            $htmlContent .= self::showSingleRow($object[$i], $listField, ($index + $i + 1), $editUrl);
+        }
+        return $htmlContent;
+    }
+
+    public static function showSingleRow($object, $listField, $index, $editUrl, $removeUrl = null)
+    {
+        $htmlContent = '';
+        $removeBtn = '';
+        foreach ($listField as $field)
+        {
+            if($field != "active")
+                $htmlContent .= '<td>'.$object[$field].'</td>';
+            else $htmlContent .= '<td class="text-center">'.self::showActiveLabel($object[$field]).'</td>';
+        }
+        if(!empty($removeUrl))
+            $removeBtn = '<a href="'.$removeUrl.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>';
+        return '
+            <tr>
+                <td>'.$index.'</td>
+                '.$htmlContent.'
+                <td class="text-center">
+                    <a href="'.$editUrl.'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                    '.$removeBtn.'
+                </td>
+            </tr>
+        ';
+    }
+
+    // --------------------------- END HTML HELPER -----------------------------------
+
+    // --------------------------- SERVICE HELPER -----------------------------------
+    /**
+     * Filter can use on multiple object
+     *
+     * @param $object
+     * @param $request
+     * @param $pageSize
+     * @param $currentPage
+     * @return array
+     */
+    public static function filterItems($object, $request, $pageSize, $currentPage)
+    {
+        $arrItems = array();
+        $columnToShow = array('id');
+        $requestKeys = array_keys($request);
+        $items = $object->query();
+
+        // Search and sort by request value
+        foreach ($requestKeys as $key)
+        {
+            if(!strpos($key, '-sort'))
+            {
+                array_push($columnToShow, $key);
+                if($key == 'active')
+                    $items->where($key, $request[$key])->get();
+                else
+                    $items->where($key, 'like', '%'.$request[$key].'%')->get();
+            }
+            else
+                $items->orderBy(str_replace('-sort','',$key), $request[$key])->get();
+        }
+        $items = $items->paginate($pageSize, null, null, $currentPage);
+
+        // Calculate page number to paginate
+        $numberPage = ceil($items->total()/$pageSize);
+
+        foreach($items as $item)
+            $arrItems[] = self::filterArrayByKeys($item->toArray(), $columnToShow);
+
+        return [
+            'items' => $arrItems,
+            'numberPage' => $numberPage,
+            'currentPage' => $currentPage,
+            'pageSize' => $pageSize
+        ];
+    }
+
+    /**
+     * Filter array by list keys array
+     * @param $array
+     * @param $keys
+     * @return array
+     */
+    public static function filterArrayByKeys($array, $keys)
+    {
+        $returnArray = [];
+        foreach($keys as $key)
+            if (array_key_exists($key, $array))
+                $returnArray[$key] = $array[$key];
+        return $returnArray;
+    }
+    // --------------------------- SERVICE HELPER -----------------------------------
 }

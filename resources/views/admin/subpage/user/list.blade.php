@@ -84,13 +84,7 @@
                                     <td> {{ $users[$i]->username }} </td>
                                     <td> {{ $users[$i]->email }} </td>
                                     <td> {{ $users[$i]->phone }} </td>
-                                    <td class="text-center">
-                                        @if($users[$i]->active == 1)
-                                            <span class="label label-success"> Active </span>
-                                        @else
-                                            <span class="label label-danger"> Inactive </span>
-                                        @endif
-                                    </td>
+                                    <td class="text-center">{!! Helper::showActiveLabel($users[$i]->active) !!}</td>
                                     <td class="text-center">
                                         <a href="{{ asset('/admin/user/edit/'.$users[$i]->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                     </td>

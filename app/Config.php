@@ -57,6 +57,12 @@ class Config extends Model
         $config->save();
     }
 
+    /**
+     * Get value by name
+     *
+     * @param $configName
+     * @return mixed
+     */
     public function getValue($configName) {
         return $this->where('name', $configName)->first()->value;
     }

@@ -66,6 +66,11 @@ class ConfigTableSeeder extends Seeder
                 'name' => 'home_social_twitter',
                 'value' => 'https://twitter.com',
                 'active' => 1
+            ],
+            [
+                'name' => 'menu_list_field',
+                'value' => ['name', 'description', 'active'],
+                'active' => 1
             ]
         ];
         DB::table('config')->insert($configArray);

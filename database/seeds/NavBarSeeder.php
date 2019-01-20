@@ -17,21 +17,24 @@ class NavBarSeeder extends Seeder
                 'link' => '/user',
                 'parent_id' => 0,
                 'page' => 'admin',
-                'created_at' => \Carbon\Carbon::now()
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
             ],
             [
                 'name' => 'Navigation Bar',
                 'link' => '/navbar',
                 'parent_id' => 0,
                 'page' => 'admin',
-                'created_at' => \Carbon\Carbon::now()
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
             ],
             [
                 'name' => 'Config',
                 'link' => '/config',
                 'parent_id' => 0,
                 'page' => 'admin',
-                'created_at' => \Carbon\Carbon::now()
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
             ],
         ]);
     }

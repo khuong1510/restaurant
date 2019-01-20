@@ -35,8 +35,7 @@ Route::group([  'prefix' => '/admin',
         return view('admin.subpage.dashboard.dashboard');
     });
 
-        // =============== NavBar PAGE =================
-
+    // =============== NavBar PAGE =================
     Route::group(['prefix' => '/navbar'], function(){
         // Get navbar list
         Route::get('/', 'NavBarController@index');
@@ -49,7 +48,7 @@ Route::group([  'prefix' => '/admin',
         Route::get('/edit/{id}', 'NavBarController@edit');
         Route::put('/update', 'NavBarController@update')->name('navbar.update');
     });
-        // =============== END NavBar PAGE =================
+    // =============== END NavBar PAGE =================
 
     // ======== USERS MANAGEMENT ==========
     Route::group(['prefix' => '/user'], function() {
@@ -74,13 +73,21 @@ Route::group([  'prefix' => '/admin',
 
     // ======== CONFIG MANAGEMENT ==========
     Route::group(['prefix' => '/config'], function() {
-
         // Get homepage config
         Route::get('/homepage', 'ConfigController@showHomepage');
         Route::post('/homepage', 'ConfigController@updateHomepage');
 
     });
     // ======== END CONFIG MANAGEMENT ==========
+
+    // ======== MENU MANAGEMENT ==========
+    Route::group(['prefix' => '/menu'], function() {
+        // Get list menu
+        Route::get('/', 'MenuController@index');
+        Route::post('/', 'MenuController@filter');
+        Route::post('/show-fields', 'MenuController@showByFields');
+    });
+    // ======== END MENU MANAGEMENT ==========
 });
 
 Route::get('/admin/login', 'AdminController\UserController@getLogin');

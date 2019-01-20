@@ -60,7 +60,7 @@ $(document).ready(function() {
                                  <td>`+ data[i].phone +`</td>
                                  <td class="text-center">`+ status +`</td>
                                  <td class="text-center">
-                                      <a href="/admin/user/edit/`+ data[i].id +`" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                      <a href="`+ $("#filter-link").val() +`/edit/`+ data[i].id +`" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                  </td>
                             </tr>
                         `);
@@ -76,13 +76,11 @@ $(document).ready(function() {
 
             // Append paginator
             for(i = 0; i < numberPage; i++) {
-                $('#paginator').append(
-                    `
-                        <li class="page-item">
-                            <a class="page-link">` + (i + 1) + `</a>
-                        </li>
-                	`
-                );
+                $('#paginator').append(`
+                    <li class="page-item">
+                        <a class="page-link">` + (i + 1) + `</a>
+                    </li>
+                `);
             }
 
             // call Ajax paginate
