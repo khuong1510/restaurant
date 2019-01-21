@@ -4,11 +4,13 @@ $(document).ready(function() {
     var filterLink = $("#rtr-filter-link");
     var filterForm = $('#rtr-filter-form');
     var itemsContent = $('#rtr-items-content');
-    var paginator = $('#rtr-paginator');
+    var paginatorBar = $('#rtr-paginator');
     var listFilterInput = $("input[id^='rtr-input-']:not('#rtr-input-active')");
     var listFieldSort = $("[id^='rtr-sort-']");
     var activeInput = $("#rtr-input-active");
     var refreshButton = $('#rtr-refresh-btn');
+    var changePageSizeInput = $('#rtr-page-size');
+    var changePageSizeForm = $('#rtr-page-size-form');
 
     // Show loading icon
     function showLoadingIcon()
@@ -43,7 +45,7 @@ $(document).ready(function() {
         }).done(function(array) {
             // Remove all contents in tbody tag before appending new contents
             itemsContent.children().remove();
-            paginator.children().remove();
+            paginatorBar.children().remove();
 
             // Get data send from Controller
             array = JSON.parse(array);
@@ -59,15 +61,15 @@ $(document).ready(function() {
             // Variable number to count the arrangement of product when paginating
             var number = (currentPage - 1) * array['pageSize'];
 
-            for(i = 0; i < data.length; i++) {
+            for(var i = 0; i < data.length; i++) {
                 var index = i + 1 + number;
                 var editUrl = filterLink.val() +`/edit/`+ data[i].id;
                 itemsContent.append(renderItemRow(index, data[i], editUrl));
             }
 
             // Append paginator
-            for(i = 0; i < numberPage; i++) {
-                paginator.append(`
+            for(var i = 0; i < numberPage; i++) {
+                paginatorBar.append(`
                         <li class="page-item">
                             <a class="page-link">` + (i + 1) + `</a>
                         </li>	
@@ -152,6 +154,17 @@ $(document).ready(function() {
         else
             $(this).children('input').val('desc');
         filterAjax();
+    });
+
+    // Change page size
+    changePageSizeInput.on('change', function() {
+        $.get(
+            changePageSizeForm.attr('action'),
+            changePageSizeForm.serialize(),
+            function (data) {
+                location.reload();
+            }
+        );
     });
 
     // Call Ajax paginate when click paginator

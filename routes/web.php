@@ -86,6 +86,7 @@ Route::group([  'prefix' => '/admin',
         Route::get('/', 'MenuController@index');
         Route::post('/', 'MenuController@filter');
         Route::post('/show-fields', 'MenuController@showByFields');
+        Route::get('/change-size-page', 'MenuController@changeSizePage');
     });
     // ======== END MENU MANAGEMENT ==========
 });

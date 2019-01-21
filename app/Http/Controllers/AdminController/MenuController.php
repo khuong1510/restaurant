@@ -3,21 +3,28 @@
 namespace App\Http\Controllers\AdminController;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Menu;
 use App\Config;
 use Illuminate\Support\Facades\Schema;
 
-class MenuController extends Controller
+class MenuController extends HelperController
 {
-    private $_showed_field;
+    private $_showedField;
+    private $_pageSize;
     private $_configRepository;
 
     function __construct(
         Config $configRepository
     ) {
         $this->_configRepository = $configRepository;
-        $this->_showed_field = explode(',', $configRepository->getValue(Menu::MENU_LIST_FIELD_CONFIG));
+        $this->_showedField = explode(',', $configRepository->getValue(Menu::LIST_FIELD_CONFIG));
+        $this->_pageSize = $configRepository->getValue(Menu::PAGE_SIZE);
+        parent::__construct(
+            $configRepository,
+            new Menu,
+            $this->_showedField,
+            $this->_pageSize
+        );
     }
 
     /**
@@ -34,35 +41,14 @@ class MenuController extends Controller
             return $value !== 'id';
         });
 
-        return view('admin.subpage.menu.list', [
-            'menus' => $menus->paginate(Menu::PAGE_SIZE),
-            'fields' => $this->_showed_field,
-            'listFields' => $listFieldWithoutId
+        return view('admin.subpage.helper.list', [
+            'items' => $menus->paginate($this->_pageSize),
+            'showFields' => $this->_showedField,
+            'listFields' => $listFieldWithoutId,
+            'title' => 'menu',
+            'titleDetail' => 'List Menus',
+            'currentPageSize' => $this->_pageSize
         ]);
-    }
-
-    /**
-     * Filter by fields
-     * @param Request $request
-     * @return string
-     */
-    public function filter(Request $request)
-    {
-        $currentPage = $request['current-page'];
-        $data = \Helper::filterItems(new Menu(), $request->except(['_token','current-page']), Menu::PAGE_SIZE, $currentPage);
-        return json_encode($data);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showByFields(Request $request)
-    {
-        $showFields = array_keys($request->except('_token'));
-        $this->_configRepository->setValue(Menu::MENU_LIST_FIELD_CONFIG, implode(',', $showFields));
-
-        return redirect()->action('AdminController\MenuController@index');
     }
 
     /**

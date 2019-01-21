@@ -71,7 +71,12 @@ class ConfigTableSeeder extends Seeder
                 'name' => 'menu_list_field',
                 'value' => ['name', 'description', 'active'],
                 'active' => 1
-            ]
+            ],
+            [
+                'name' => 'menu_page_size',
+                'value' => 5,
+                'active' => 1
+            ],
         ];
         DB::table('config')->insert($configArray);
     }

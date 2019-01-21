@@ -158,6 +158,31 @@ class Helper
         ';
     }
 
+    public static function showListFieldSelect($allFields, $showFields)
+    {
+        $htmlContent = '';
+        $numberColumn = 2;
+        $numberFields = count($allFields);
+        $numberCheckboxPerColumn = ceil(count($allFields) / $numberColumn) ;
+
+        for($j = 0; $j < $numberColumn; $j++)
+        {
+            $html = '';
+            $lastIndex = $j == ($numberColumn - 1) ? $numberFields : (($j + 1) * $numberCheckboxPerColumn);
+            $startIndex = ($j * $numberCheckboxPerColumn) + 1;
+            for($i = $startIndex; $i <= $lastIndex; $i++)
+            {
+                $isCheck = in_array($allFields[$i], $showFields) ? "checked" : "";
+                $html .= '
+                    <label class="mt-checkbox text-capitalize">'.$allFields[$i].'
+                        <input type="checkbox" value="1" name="'.$allFields[$i].'" '.$isCheck.' />
+                        <span></span>
+                    </label>';
+            }
+            $htmlContent .= '<div class="col-md-'. 12 / $numberColumn .'">'.$html.'</div>';
+        }
+        return $htmlContent;
+    }
     // --------------------------- END HTML HELPER -----------------------------------
 
     // --------------------------- SERVICE HELPER -----------------------------------
