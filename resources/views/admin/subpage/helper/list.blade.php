@@ -43,9 +43,9 @@
                 <div class="portlet-body">
                     <table class="table table-striped table-bordered table-hover" id="rtr-items-table">
                         <thead>
-                        {!! Helper::showTableHeader($showFields); !!}
                         <form method="POST" id="rtr-filter-form" autocomplete="off">
                             {{ csrf_field() }}
+                            {!! Helper::showTableHeader($showFields); !!}
                             {!! Helper::showFilterRow($showFields); !!}
                             <input type="hidden" name="current-page" id="rtr-current-page">
                         </form>

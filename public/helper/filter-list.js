@@ -37,11 +37,16 @@ $(document).ready(function() {
     }
 
     // Ajax function get items after filtering
-    function filterAjax() {
+    function filterAjax(sortField = null) {
+        var allInput = filterForm.serializeArray();
+        var data = allInput.filter(function(value){
+            return value.name == sortField || !value.name.includes("-sort");
+        });
+
         $.ajax({
             method: "POST",
             url: filterLink.val(),
-            data: filterForm.serialize()
+            data: data
         }).done(function(array) {
             // Remove all contents in tbody tag before appending new contents
             itemsContent.children().remove();
@@ -147,13 +152,15 @@ $(document).ready(function() {
 
     // call Ajax function to sort
     listFieldSort.on('click', function() {
+
         // Change sort icon after clicking
         $(this).toggleClass('glyphicon-sort-by-attributes glyphicon-sort-by-attributes-alt');
         if($(this).hasClass('glyphicon-sort-by-attributes'))
             $(this).children('input').val('asc');
         else
             $(this).children('input').val('desc');
-        filterAjax();
+
+        filterAjax($(this).children('input').attr('name'));
     });
 
     // Change page size

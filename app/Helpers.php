@@ -85,7 +85,7 @@ class Helper
                     <input type="hidden" name="'.$field.'-sort" value="asc">
                 </i>';
             $htmlContent .= '
-                <th class="text-center text-capitalize">'.$field.'
+                <th class="text-center text-capitalize">'.title_case(str_replace("_"," ",$field)).'
                 '.$filterIcon.'
                 </th>';
         }
