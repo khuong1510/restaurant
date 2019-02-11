@@ -92,9 +92,9 @@ class Helper
 
         return '
             <tr class="success">
-                <th style="width: 5%" class="text-center"> No. </th>
+                <th class="text-center"> No. </th>
                 '.$htmlContent.'
-                <th style="width: 5%" class="text-center"> Action </th>
+                <th class="text-center"> Action </th>
              </tr>';
     }
 
@@ -123,13 +123,14 @@ class Helper
         ';
     }
 
-    public static function showItemsRow($object, $listField, $index, $rootUrl)
+    public static function showItemsRow($object, $listField, $index, $rootUrl, $hasRemoveBtn = false)
     {
         $htmlContent = '';
         for($i = 0; $i < count($object); $i++)
         {
             $editUrl = asset('/admin/'.$rootUrl.'/edit/'.$object[$i]->id);
-            $htmlContent .= self::showSingleRow($object[$i], $listField, ($index + $i + 1), $editUrl);
+            $removeUrl = $hasRemoveBtn ? asset('/admin/'.$rootUrl.'/delete/'.$object[$i]->id) : '';
+            $htmlContent .= self::showSingleRow($object[$i], $listField, ($index + $i + 1), $editUrl, $removeUrl);
         }
         return $htmlContent;
     }
@@ -145,7 +146,7 @@ class Helper
             else $htmlContent .= '<td class="text-center">'.self::showActiveLabel($object[$field]).'</td>';
         }
         if(!empty($removeUrl))
-            $removeBtn = '<a href="'.$removeUrl.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>';
+            $removeBtn = '<a data-href="'.$removeUrl.'" class="btn btn-sm btn-danger rtr-remove-btn"><i class="fa fa-trash"></i></a>';
         return '
             <tr>
                 <td>'.$index.'</td>
@@ -214,7 +215,7 @@ class Helper
                     $items->where($key, 'like', '%'.$request[$key].'%')->get();
             }
             else
-                $items->orderBy(str_replace('-sort','',$key), $request[$key])->get();
+                $items->orderBy(str_replace('-sort','', $key), $request[$key])->get();
         }
         $items = $items->paginate($pageSize, null, null, $currentPage);
 

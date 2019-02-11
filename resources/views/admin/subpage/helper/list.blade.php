@@ -4,12 +4,15 @@
 @section('title-detail', $titleDetail)
 
 @section('content')
-    <?php $asset = asset('/admin/'.$title); ?>
+    <?php
+    $asset = asset('/admin/'.$title);
+    ?>
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet light ">
                 <input type="hidden" value="{{ $asset }}" id="rtr-filter-link" />
+                <input type="hidden" value="{{ $hasRemoveBtn ? true : false }}" id="rtr-has-remove-btn" />
                 <div class="portlet-title">
                     <div class="font-red-sunglo">
                         <h4 class="caption-subject bold uppercase"><i class="icon-settings font-red-sunglo"></i> {{ $titleDetail }}</h4>
@@ -40,39 +43,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="portlet-body">
-                    <table class="table table-striped table-bordered table-hover" id="rtr-items-table">
-                        <thead>
-                        <form method="POST" id="rtr-filter-form" autocomplete="off">
-                            {{ csrf_field() }}
-                            {!! Helper::showTableHeader($showFields); !!}
-                            {!! Helper::showFilterRow($showFields); !!}
-                            <input type="hidden" name="current-page" id="rtr-current-page">
-                        </form>
-                        </thead>
-                        <tbody id="rtr-items-content">
-                        <?php
-                        $number = ( $items->currentPage() - 1) * $items->perPage();
-                        echo Helper::showItemsRow($items, $showFields, $number, $title);
-                        ?>
-                        </tbody>
-                    </table>
+                <form method="POST" id="rtr-filter-form" autocomplete="off">
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover" id="rtr-items-table">
+                            <thead>
 
-                    <!-- PAGINATION -->
-                    <div class="text-center">
-                        <nav id="pagination">
-                            <ul class="pagination" id="rtr-paginator">
-                                @for($i = 1; $i <= $items->lastPage(); $i++)
-                                    <li class="page-item @if($i == 1) active @endif">
-                                        <a class="page-link">{{ $i }}</a>
-                                    </li>
-                                @endfor
-                            </ul>
-                        </nav>
+                                {{ csrf_field() }}
+                                {!! Helper::showTableHeader($showFields); !!}
+                                {!! Helper::showFilterRow($showFields); !!}
+                                <input type="hidden" name="current-page" id="rtr-current-page">
+
+                            </thead>
+                            <tbody id="rtr-items-content">
+                            <?php $number = ( $items->currentPage() - 1) * $items->perPage(); ?>
+                            {!! Helper::showItemsRow($items, $showFields, $number, $title, $hasRemoveBtn ? true : false); !!}
+                            </tbody>
+                        </table>
+
+                        <!-- PAGINATION -->
+                        <div class="text-center">
+                            <nav id="pagination">
+                                <ul class="pagination" id="rtr-paginator">
+                                    @for($i = 1; $i <= $items->lastPage(); $i++)
+                                        <li class="page-item @if($i == 1) active @endif">
+                                            <a class="page-link">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- END PAGINATION -->
+
                     </div>
-                    <!-- END PAGINATION -->
-
-                </div>
+                </form>
             </div>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>

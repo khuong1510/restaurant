@@ -9,8 +9,10 @@ $(document).ready(function() {
     var listFieldSort = $("[id^='rtr-sort-']");
     var activeInput = $("#rtr-input-active");
     var refreshButton = $('#rtr-refresh-btn');
+    var removeButton = $('.rtr-remove-btn');
     var changePageSizeInput = $('#rtr-page-size');
     var changePageSizeForm = $('#rtr-page-size-form');
+    var hasRemoveBtn = $('#rtr-has-remove-btn').val();
 
     // Show loading icon
     function showLoadingIcon()
@@ -56,6 +58,7 @@ $(document).ready(function() {
             array = JSON.parse(array);
             var data = array['items'];
             var numberPage = array['numberPage'];
+            var currentPage = 0;
 
             if(array['currentPage'] == null || numberPage == 1)
                 currentPage = 1;
@@ -69,7 +72,8 @@ $(document).ready(function() {
             for(var i = 0; i < data.length; i++) {
                 var index = i + 1 + number;
                 var editUrl = filterLink.val() +`/edit/`+ data[i].id;
-                itemsContent.append(renderItemRow(index, data[i], editUrl));
+                var removeBtn = hasRemoveBtn ? (filterLink.val() +`/delete/`+ data[i].id) : null;
+                itemsContent.append(renderItemRow(index, data[i], editUrl, removeBtn));
             }
 
             // Append paginator
@@ -107,7 +111,7 @@ $(document).ready(function() {
         }
 
         if(removeUrl)
-            removeBtn = `<a href="`+ removeUrl +`" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>`;
+            removeBtn = `<a data-href="`+ removeUrl +`" class="btn btn-sm btn-danger rtr-remove-btn"><i class="fa fa-trash-o"></i></a>`;
         return `
             <tr>
                 <td>`+ index +`</td>
@@ -152,8 +156,12 @@ $(document).ready(function() {
 
     // call Ajax function to sort
     listFieldSort.on('click', function() {
-
-        // Change sort icon after clicking
+        // Reset sort icon except chosen icon
+        listFieldSort.not(this).each(function(){
+            if($(this).hasClass('glyphicon-sort-by-attributes-alt'))
+                $(this).toggleClass('glyphicon-sort-by-attributes-alt glyphicon-sort-by-attributes');
+        });
+        // Change current sort icon after clicking
         $(this).toggleClass('glyphicon-sort-by-attributes glyphicon-sort-by-attributes-alt');
         if($(this).hasClass('glyphicon-sort-by-attributes'))
             $(this).children('input').val('asc');
@@ -174,6 +182,14 @@ $(document).ready(function() {
         );
     });
 
+    removeButton.on('click', function() {
+        if(confirm('Are you sure?'))
+        {
+            $.get($(this).data('href'), function () {
+                filterAjax();
+            });
+        }
+    });
     // Call Ajax paginate when click paginator
     ajaxPaginate();
 });

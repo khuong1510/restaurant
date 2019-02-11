@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminController;
 
+use App\Http\Requests\MenuRequest;
 use Illuminate\Http\Request;
 use App\Menu;
 use App\Config;
@@ -21,7 +22,7 @@ class MenuController extends HelperController
         $this->_pageSize = $configRepository->getValue(Menu::PAGE_SIZE);
         parent::__construct(
             $configRepository,
-            new Menu,
+            new Menu(),
             $this->_showedField,
             $this->_pageSize
         );
@@ -45,9 +46,10 @@ class MenuController extends HelperController
             'items' => $menus->paginate($this->_pageSize),
             'showFields' => $this->_showedField,
             'listFields' => $listFieldWithoutId,
-            'title' => 'menu',
+            'title' => Menu::HANDLE,
             'titleDetail' => 'List Menus',
-            'currentPageSize' => $this->_pageSize
+            'currentPageSize' => $this->_pageSize,
+            'hasRemoveBtn' => true
         ]);
     }
 
@@ -58,7 +60,9 @@ class MenuController extends HelperController
      */
     public function create()
     {
-        //
+        return view('admin.subpage.menu.add', [
+            'title' => Menu::HANDLE,
+        ]);
     }
 
     /**
@@ -67,20 +71,11 @@ class MenuController extends HelperController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MenuRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $menu = new Menu();
+        $menu->insertMenu($request->except('_token'));
+        return redirect()->back()->with('success_message', 'New menu have been added');
     }
 
     /**
@@ -91,19 +86,33 @@ class MenuController extends HelperController
      */
     public function edit($id)
     {
-        //
+        $menu = Menu::findOrFail($id);
+        return view('admin.subpage.menu.edit', [
+            'title' => Menu::HANDLE,
+            'item' => $menu
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $menu = Menu::findOrFail($request['id']);
+        $isSuccess = $menu->updateMenu($request->except('_token'));
+        $response = [
+            "message" => "Failed when updating menu.",
+            "error" => 1
+        ];
+        if($isSuccess)
+        {
+            $response["message"] = "Update menu successful.";
+            $response["error"] = 0;
+        }
+        return json_encode($response);
     }
 
     /**
@@ -114,6 +123,7 @@ class MenuController extends HelperController
      */
     public function destroy($id)
     {
-        //
+        Menu::destroy($id);
+        return json_encode(true);
     }
 }
