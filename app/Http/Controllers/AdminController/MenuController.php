@@ -68,8 +68,8 @@ class MenuController extends HelperController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param MenuRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(MenuRequest $request)
     {

@@ -35,20 +35,29 @@ Route::group([  'prefix' => '/admin',
         return view('admin.subpage.dashboard.dashboard');
     });
 
-    // =============== NavBar PAGE =================
+    // =============== NAVBAR PAGE =================
     Route::group(['prefix' => '/navbar'], function(){
         // Get navbar list
-        Route::get('/', 'NavBarController@index');
+        Route::get('/', 'NavbarController@index');
+        Route::post('/', 'NavbarController@filter');
+        Route::post('/show-fields', 'NavbarController@showByFields');
+        Route::get('/change-size-page', 'NavbarController@changeSizePage');
 
         // Display page create new navbar and execute
-        Route::get('/add', 'NavBarController@create');
-        Route::post('/store', 'NavBarController@store')->name('navbar.store');
+        Route::get('/add', 'NavbarController@create');
+        Route::post('/store', 'NavbarController@store')->name('navbar.store');
 
         // Get edit page and execute
-        Route::get('/edit/{id}', 'NavBarController@edit');
-        Route::put('/update', 'NavBarController@update')->name('navbar.update');
+        Route::get('/edit/{id}', 'NavbarController@edit');
+        Route::post('/update', 'NavbarController@update')->name('navbar.update');
+
+        // Delete navbar link
+        Route::get('/delete/{id}', 'NavbarController@destroy');
+
+        // Get navbar by page type
+        Route::get('/load-navbar/{pageType}', 'NavbarController@getNavbarByPageType');
     });
-    // =============== END NavBar PAGE =================
+    // =============== END NAVBAR PAGE =================
 
     // ======== USERS MANAGEMENT ==========
     Route::group(['prefix' => '/user'], function() {
@@ -88,12 +97,15 @@ Route::group([  'prefix' => '/admin',
         Route::post('/show-fields', 'MenuController@showByFields');
         Route::get('/change-size-page', 'MenuController@changeSizePage');
 
+        // Add new menu
         Route::get('/add', 'MenuController@create');
         Route::post('/create', 'MenuController@store');
 
+        // Update menu
         Route::get('/edit/{id}', 'MenuController@edit');
         Route::post('/update', 'MenuController@update');
 
+        // Delete menu
         Route::get('/delete/{id}', 'MenuController@destroy');
     });
     // ======== END MENU MANAGEMENT ==========

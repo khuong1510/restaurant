@@ -13,6 +13,9 @@ $(document).ready(function() {
     var changePageSizeInput = $('#rtr-page-size');
     var changePageSizeForm = $('#rtr-page-size-form');
     var hasRemoveBtn = $('#rtr-has-remove-btn').val();
+    var removeMsg = $('#rtr-remove-message').val();
+    var errorMsg = $("#errorsMsg");
+    var successMsg = $("#successMsg");
 
     // Show loading icon
     function showLoadingIcon()
@@ -176,20 +179,44 @@ $(document).ready(function() {
         $.get(
             changePageSizeForm.attr('action'),
             changePageSizeForm.serialize(),
-            function (data) {
+            function () {
                 location.reload();
             }
         );
     });
 
     removeButton.on('click', function() {
-        if(confirm('Are you sure?'))
+        removeItem($(this));
+    });
+
+    function removeItem(element) {
+        errorMsg.hide();
+        successMsg.hide();
+
+        if(confirm(removeMsg))
         {
-            $.get($(this).data('href'), function () {
+            $.get(element.data('href'), function (data) {
+                executeResponse(data);
                 filterAjax();
             });
         }
-    });
+    }
+
+    function executeResponse(data)
+    {
+        data = JSON.parse(data);
+
+        if(data.error == 1)
+        {
+            errorMsg.html("<p><strong>Error! </strong> "+ data.message +"</p>");
+            errorMsg.show();
+        }
+        else {
+            successMsg.html("<p><strong>Success! </strong> "+ data.message +"</p>");
+            successMsg.show();
+        }
+    }
+
     // Call Ajax paginate when click paginator
     ajaxPaginate();
 });

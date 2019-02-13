@@ -7,13 +7,14 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-
+            <!-- BEGIN REPORT POPUP -->
             <div class="alert alert-success alert-dismissable reportMsg" id="successMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
             </div>
             <div class="alert alert-danger alert-dismissable reportMsg" id="errorsMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
             </div>
+            <!-- END REPORT POPUP -->
 
             <!-- BEGIN SAMPLE FORM PORTLET-->
             <div class="portlet light ">
@@ -119,7 +120,6 @@
 @endsection
 
 @section('addition-script')
-    {{--src="{{ asset('js/user/update.js') }}"--}}
     <script type="text/javascript">
         var form = $("form#rtr-edit-form");
         var errorMsg = $("#errorsMsg");

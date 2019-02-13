@@ -46,7 +46,8 @@ class HelperController extends Controller
         $showFields = array_keys($request->except('_token'));
         $this->_configRepository->setValue($this->_object::LIST_FIELD_CONFIG, implode(',', $showFields));
 
-        return redirect()->action('AdminController\MenuController@index');
+        $controllerName = title_case($this->_object::HANDLE).'Controller';
+        return redirect()->action('AdminController\\'.$controllerName.'@index');
     }
 
     /**

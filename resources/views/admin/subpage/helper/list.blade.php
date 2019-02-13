@@ -4,15 +4,14 @@
 @section('title-detail', $titleDetail)
 
 @section('content')
-    <?php
-    $asset = asset('/admin/'.$title);
-    ?>
+    <?php $asset = asset('/admin/'.$title); ?>
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
-            <div class="portlet light ">
+            <div class="portlet light">
                 <input type="hidden" value="{{ $asset }}" id="rtr-filter-link" />
                 <input type="hidden" value="{{ $hasRemoveBtn ? true : false }}" id="rtr-has-remove-btn" />
+                <input type="hidden" value="{{ !empty($removeMsg) ? $removeMsg : "Are your sure to delete this item?" }}" id="rtr-remove-message" />
                 <div class="portlet-title">
                     <div class="font-red-sunglo">
                         <h4 class="caption-subject bold uppercase"><i class="icon-settings font-red-sunglo"></i> {{ $titleDetail }}</h4>

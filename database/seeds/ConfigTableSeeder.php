@@ -77,6 +77,16 @@ class ConfigTableSeeder extends Seeder
                 'value' => 5,
                 'active' => 1
             ],
+            [
+                'name' => 'navbar_list_field',
+                'value' => ['name', 'link', 'parent_id'],
+                'active' => 1
+            ],
+            [
+                'name' => 'navbar_page_size',
+                'value' => 5,
+                'active' => 1
+            ],
         ];
         DB::table('config')->insert($configArray);
     }

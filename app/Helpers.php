@@ -43,18 +43,19 @@ class Helper
         }
     }
 
-    public static function convertArrayForFormCollective($navBar, $parent_id = 0, $char = ''){
+    public static function convertArrayForFormCollective($navBar, $parent_id = 0, $char = '', $current_parent_id = null){
         foreach ($navBar as $key => $item)
         {
             if ($item['parent_id'] == $parent_id)
             {
-                echo '<option value="'.$item['id'].'">';
+                $selected = ($current_parent_id == $item['id'] && $current_parent_id != null) ? "selected" : "";
+                echo '<option value="'.$item["id"].'" '.$selected.'>';
                 echo $char . $item['name'];
                 echo '</option>';
 
                 unset($navBar[$key]);
 
-                self::convertArrayForFormCollective($navBar, $item['id'], $char.'|--');
+                self::convertArrayForFormCollective($navBar, $item['id'], $char.$item['name'].'->', $current_parent_id);
             }
         }
     }
