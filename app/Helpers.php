@@ -124,14 +124,20 @@ class Helper
         ';
     }
 
-    public static function showItemsRow($object, $listField, $index, $rootUrl, $hasRemoveBtn = false)
+    public static function showItemsRow($object, $listField, $index, $rootUrl, $hasRemoveBtn = false, $totalColumn = 0)
     {
         $htmlContent = '';
-        for($i = 0; $i < count($object); $i++)
+        $objectNumber = count($object);
+        if($objectNumber < 1)
         {
-            $editUrl = asset('/admin/'.$rootUrl.'/edit/'.$object[$i]->id);
-            $removeUrl = $hasRemoveBtn ? asset('/admin/'.$rootUrl.'/delete/'.$object[$i]->id) : '';
-            $htmlContent .= self::showSingleRow($object[$i], $listField, ($index + $i + 1), $editUrl, $removeUrl);
+            $htmlContent .= '<tr><td colspan="'.$totalColumn.'" class="text-center">Not found any items.</td></tr>';
+        } else {
+            for($i = 0; $i < $objectNumber; $i++)
+            {
+                $editUrl = asset('/admin/'.$rootUrl.'/edit/'.$object[$i]->id);
+                $removeUrl = $hasRemoveBtn ? asset('/admin/'.$rootUrl.'/delete/'.$object[$i]->id) : '';
+                $htmlContent .= self::showSingleRow($object[$i], $listField, ($index + $i + 1), $editUrl, $removeUrl);
+            }
         }
         return $htmlContent;
     }

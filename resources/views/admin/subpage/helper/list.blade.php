@@ -54,8 +54,11 @@
 
                             </thead>
                             <tbody id="rtr-items-content">
-                            <?php $number = ( $items->currentPage() - 1) * $items->perPage(); ?>
-                            {!! Helper::showItemsRow($items, $showFields, $number, $title, $hasRemoveBtn ? true : false); !!}
+                            <?php
+                            $number = ( $items->currentPage() - 1) * $items->perPage();
+                            $totalColumn = count($showFields) + 2;
+                            ?>
+                            {!! Helper::showItemsRow($items, $showFields, $number, $title, $hasRemoveBtn ? true : false, $totalColumn); !!}
                             </tbody>
                         </table>
 

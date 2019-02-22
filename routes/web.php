@@ -109,6 +109,27 @@ Route::group([  'prefix' => '/admin',
         Route::get('/delete/{id}', 'MenuController@destroy');
     });
     // ======== END MENU MANAGEMENT ==========
+
+    // ======== FOOD MANAGEMENT ==========
+    Route::group(['prefix' => '/food'], function() {
+        // Get list menu
+        Route::get('/', 'FoodController@index');
+        Route::post('/', 'FoodController@filter');
+        Route::post('/show-fields', 'FoodController@showByFields');
+        Route::get('/change-size-page', 'FoodController@changeSizePage');
+
+        // Add new menu
+        Route::get('/add', 'FoodController@create');
+        Route::post('/create', 'FoodController@store')->name('food.store');
+
+        // Update menu
+        Route::get('/edit/{id}', 'FoodController@edit');
+        Route::put('/update/{id}', 'FoodController@update')->name('food.update');
+
+        // Delete menu
+        Route::get('/delete/{id}', 'FoodController@destroy');
+    });
+    // ======== END FOOD MANAGEMENT ==========
 });
 
 Route::get('/admin/login', 'AdminController\UserController@getLogin');

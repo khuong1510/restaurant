@@ -10,11 +10,9 @@
 
             <div class="alert alert-success alert-dismissable reportMsg" id="successMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-
             </div>
             <div class="alert alert-danger alert-dismissable reportMsg" id="errorsMsg" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-
             </div>
 
             <!-- BEGIN PROFILE SIDEBAR -->
